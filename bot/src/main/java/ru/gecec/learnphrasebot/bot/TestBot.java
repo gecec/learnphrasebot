@@ -1,14 +1,15 @@
 package ru.gecec.learnphrasebot.bot;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.List;
-
+@Component
 public class TestBot extends TelegramLongPollingBot {
     @Value("${bot.username}")
     private String username;
@@ -16,11 +17,11 @@ public class TestBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String token;
 
+    @Autowired
+    private DefaultBotOptions options;
+
     public TestBot(DefaultBotOptions options) {
         super(options);
-    }
-
-    public TestBot() {
     }
 
     @Override
@@ -35,11 +36,6 @@ public class TestBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public void onUpdatesReceived(List<Update> updates) {
-
     }
 
     @Override

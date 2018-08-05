@@ -516,3 +516,588 @@ Unconditional classes:
 
 
 2018-08-04 22:06:27.492  INFO 4515 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 1.021 seconds (JVM running for 1.649)
+2018-08-05 07:42:35.045  INFO 8025 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 07:42:35.077  INFO 8025 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 8025 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 07:42:35.077  INFO 8025 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 07:42:35.542  WARN 8025 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 07:42:36.045 ERROR 8025 - [main] org.springframework.boot.SpringApplication : Application startup failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'main': Unsatisfied dependency expressed through field 'testBot'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'testBot': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'bot.username' in string value "${bot.username}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:866)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:542)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:370)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:314)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1162)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1151)
+	at ru.gecec.learnphrasebot.main.Main.main(Main.java:24)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'testBot': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'bot.username' in string value "${bot.username}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:372)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 18 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'bot.username' in string value "${bot.username}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:174)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$2.resolveStringValue(PropertySourcesPlaceholderConfigurer.java:172)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:831)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1086)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	... 29 common frames omitted
+
+2018-08-05 07:45:01.602  INFO 8190 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 07:45:01.639  INFO 8190 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 8190 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 07:45:01.639  INFO 8190 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 07:45:02.191  WARN 8190 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 07:45:02.701 ERROR 8190 - [main] org.springframework.boot.SpringApplication : Application startup failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'main': Unsatisfied dependency expressed through field 'testBot'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'testBot': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'bot.username' in string value "${bot.username}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:588)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:866)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:542)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:370)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:314)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1162)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1151)
+	at ru.gecec.learnphrasebot.main.Main.main(Main.java:24)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'testBot': Injection of autowired dependencies failed; nested exception is java.lang.IllegalArgumentException: Could not resolve placeholder 'bot.username' in string value "${bot.username}"
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:372)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1264)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1138)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	... 18 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'bot.username' in string value "${bot.username}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:174)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:236)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer$2.resolveStringValue(PropertySourcesPlaceholderConfigurer.java:172)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:831)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1086)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1066)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:585)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:366)
+	... 29 common frames omitted
+
+2018-08-05 07:57:41.995  INFO 8475 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 07:57:42.035  INFO 8475 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 8475 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 07:57:42.036  INFO 8475 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 07:57:42.619  WARN 8475 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 07:57:42.799 ERROR 8475 - [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field testBot in ru.gecec.learnphrasebot.main.Main required a bean of type 'ru.gecec.learnphrasebot.bot.TestBot' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'ru.gecec.learnphrasebot.bot.TestBot' in your configuration.
+
+2018-08-05 07:58:13.574  INFO 8562 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 07:58:13.604  INFO 8562 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 8562 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 07:58:13.604  INFO 8562 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 07:58:14.289  WARN 8562 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 07:58:14.941  WARN 8562 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 07:59:30.149 ERROR 8562 - [main] ru.gecec.learnphrasebot.main.Main : Error removing old webhook
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:79)
+	at org.telegram.telegrambots.bots.TelegramLongPollingBot.clearWebhook(TelegramLongPollingBot.java:25)
+	at org.telegram.telegrambots.meta.TelegramBotsApi.registerBot(TelegramBotsApi.java:120)
+	at ru.gecec.learnphrasebot.main.Main.run(Main.java:36)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:760)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1162)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1151)
+	at ru.gecec.learnphrasebot.main.Main.main(Main.java:24)
+Caused by: org.telegram.telegrambots.meta.exceptions.TelegramApiException: Unable to execute deleteWebhook method
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:668)
+	at org.telegram.telegrambots.meta.bots.AbsSender.execute(AbsSender.java:47)
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:74)
+	... 10 common frames omitted
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to api.telegram.org:443 [api.telegram.org/149.154.167.220, api.telegram.org/2001:67c:4e8:f004:0:0:0:9] failed: Сеть недоступна (connect failed)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:158)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:353)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:380)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendHttpPostRequest(DefaultAbsSender.java:714)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendMethodRequest(DefaultAbsSender.java:710)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:665)
+	... 12 common frames omitted
+Caused by: java.net.ConnectException: Сеть недоступна (connect failed)
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:589)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:337)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:141)
+	... 23 common frames omitted
+
+2018-08-05 07:59:30.153  INFO 8562 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 76.734 seconds (JVM running for 77.366)
+2018-08-05 07:59:52.618  INFO 8977 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 07:59:52.679  INFO 8977 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 8977 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 07:59:52.680  INFO 8977 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 07:59:53.349  WARN 8977 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 07:59:53.979  WARN 8977 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 08:01:41.307 ERROR 8977 - [main] ru.gecec.learnphrasebot.main.Main : Error removing old webhook
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:79)
+	at org.telegram.telegrambots.bots.TelegramLongPollingBot.clearWebhook(TelegramLongPollingBot.java:25)
+	at org.telegram.telegrambots.meta.TelegramBotsApi.registerBot(TelegramBotsApi.java:120)
+	at ru.gecec.learnphrasebot.main.Main.run(Main.java:36)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:760)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1162)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1151)
+	at ru.gecec.learnphrasebot.main.Main.main(Main.java:24)
+Caused by: org.telegram.telegrambots.meta.exceptions.TelegramApiException: Unable to execute deleteWebhook method
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:668)
+	at org.telegram.telegrambots.meta.bots.AbsSender.execute(AbsSender.java:47)
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:74)
+	... 10 common frames omitted
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to api.telegram.org:443 [api.telegram.org/149.154.167.220, api.telegram.org/2001:67c:4e8:f004:0:0:0:9] failed: Сеть недоступна (connect failed)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:158)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:353)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:380)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendHttpPostRequest(DefaultAbsSender.java:714)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendMethodRequest(DefaultAbsSender.java:710)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:665)
+	... 12 common frames omitted
+Caused by: java.net.ConnectException: Сеть недоступна (connect failed)
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:589)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:337)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:141)
+	... 23 common frames omitted
+
+2018-08-05 08:01:41.314  INFO 8977 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 108.888 seconds (JVM running for 109.75)
+2018-08-05 08:34:52.246  INFO 9994 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 08:34:52.285  INFO 9994 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 9994 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 08:34:52.286  INFO 9994 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 08:34:52.964  WARN 9994 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 08:34:53.589  WARN 9994 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 08:36:08.771 ERROR 9994 - [main] Telegram Bots Api : MAINTAG
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:79)
+	at org.telegram.telegrambots.bots.TelegramLongPollingBot.clearWebhook(TelegramLongPollingBot.java:25)
+	at org.telegram.telegrambots.meta.TelegramBotsApi.registerBot(TelegramBotsApi.java:120)
+	at ru.gecec.learnphrasebot.main.Main.run(Main.java:55)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:760)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1162)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1151)
+	at ru.gecec.learnphrasebot.main.Main.main(Main.java:31)
+Caused by: org.telegram.telegrambots.meta.exceptions.TelegramApiException: Unable to execute deleteWebhook method
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:668)
+	at org.telegram.telegrambots.meta.bots.AbsSender.execute(AbsSender.java:47)
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:74)
+	... 10 common frames omitted
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to api.telegram.org:443 [api.telegram.org/149.154.167.220, api.telegram.org/2001:67c:4e8:f004:0:0:0:9] failed: Сеть недоступна (connect failed)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:158)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:353)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:380)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendHttpPostRequest(DefaultAbsSender.java:714)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendMethodRequest(DefaultAbsSender.java:710)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:665)
+	... 12 common frames omitted
+Caused by: java.net.ConnectException: Сеть недоступна (connect failed)
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:589)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:337)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:141)
+	... 23 common frames omitted
+
+2018-08-05 08:36:08.777  INFO 9994 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 76.667 seconds (JVM running for 77.304)
+2018-08-05 21:54:16.004  INFO 2920 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 21:54:16.064  INFO 2920 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 2920 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 21:54:16.065  INFO 2920 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 21:54:16.830  WARN 2920 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 21:54:17.557  WARN 2920 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 21:55:32.751 ERROR 2920 - [main] Telegram Bots Api : MAINTAG
+
+org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:79)
+	at org.telegram.telegrambots.bots.TelegramLongPollingBot.clearWebhook(TelegramLongPollingBot.java:25)
+	at org.telegram.telegrambots.meta.TelegramBotsApi.registerBot(TelegramBotsApi.java:120)
+	at ru.gecec.learnphrasebot.main.Main.run(Main.java:55)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:760)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1162)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1151)
+	at ru.gecec.learnphrasebot.main.Main.main(Main.java:31)
+Caused by: org.telegram.telegrambots.meta.exceptions.TelegramApiException: Unable to execute deleteWebhook method
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:668)
+	at org.telegram.telegrambots.meta.bots.AbsSender.execute(AbsSender.java:47)
+	at org.telegram.telegrambots.util.WebhookUtils.clearWebhook(WebhookUtils.java:74)
+	... 10 common frames omitted
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to api.telegram.org:443 [api.telegram.org/149.154.167.220, api.telegram.org/2001:67c:4e8:f004:0:0:0:9] failed: Сеть недоступна (connect failed)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:158)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:353)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:380)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendHttpPostRequest(DefaultAbsSender.java:714)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendMethodRequest(DefaultAbsSender.java:710)
+	at org.telegram.telegrambots.bots.DefaultAbsSender.sendApiMethod(DefaultAbsSender.java:665)
+	... 12 common frames omitted
+Caused by: java.net.ConnectException: Сеть недоступна (connect failed)
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:589)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:337)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:141)
+	... 23 common frames omitted
+
+2018-08-05 21:55:32.752  INFO 2920 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 77.113 seconds (JVM running for 77.831)
+2018-08-05 22:04:12.035  INFO 3674 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:04:12.063  INFO 3674 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 3674 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:04:12.063  INFO 3674 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:04:12.663  WARN 3674 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:04:13.216  WARN 3674 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:04:17.294 ERROR 3674 - [main] Telegram Bots Api : MAINTAG
+
+com.google.inject.ConfigurationException: Guice configuration errors:
+
+1) No implementation for org.telegram.telegrambots.meta.generics.BotSession was bound.
+  while locating org.telegram.telegrambots.meta.generics.BotSession
+
+1 error
+	at com.google.inject.internal.InjectorImpl.getProvider(InjectorImpl.java:1045)
+	at com.google.inject.internal.InjectorImpl.getProvider(InjectorImpl.java:1004)
+	at com.google.inject.internal.InjectorImpl.getInstance(InjectorImpl.java:1054)
+	at org.telegram.telegrambots.meta.ApiContext.getInstance(ApiContext.java:25)
+	at org.telegram.telegrambots.meta.TelegramBotsApi.registerBot(TelegramBotsApi.java:121)
+	at ru.gecec.learnphrasebot.main.Main.run(Main.java:57)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:760)
+	at org.springframework.boot.SpringApplication.afterRefresh(SpringApplication.java:747)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1162)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1151)
+	at ru.gecec.learnphrasebot.main.Main.main(Main.java:31)
+
+2018-08-05 22:04:17.295  INFO 3674 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 5.385 seconds (JVM running for 6.052)
+2018-08-05 22:15:11.262  INFO 4036 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:15:11.297  INFO 4036 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 4036 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:15:11.297  INFO 4036 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:15:11.906  WARN 4036 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:15:12.063 ERROR 4036 - [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field testBot in ru.gecec.learnphrasebot.main.Main required a bean of type 'ru.gecec.learnphrasebot.bot.TestBot' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'ru.gecec.learnphrasebot.bot.TestBot' in your configuration.
+
+2018-08-05 22:15:31.023  INFO 4121 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:15:31.052  INFO 4121 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 4121 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:15:31.052  INFO 4121 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:15:31.625  WARN 4121 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:15:31.795 ERROR 4121 - [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field testBot in ru.gecec.learnphrasebot.main.Main required a bean of type 'ru.gecec.learnphrasebot.bot.TestBot' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'ru.gecec.learnphrasebot.bot.TestBot' in your configuration.
+
+2018-08-05 22:15:55.019  INFO 4198 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:15:55.050  INFO 4198 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 4198 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:15:55.051  INFO 4198 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:15:55.672  WARN 4198 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:15:55.828  WARN 4198 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:15:57.632  INFO 4198 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 2.766 seconds (JVM running for 3.404)
+2018-08-05 22:16:33.140  INFO 4316 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:16:33.177  INFO 4316 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 4316 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:16:33.177  INFO 4316 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:16:33.768  WARN 4316 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:16:33.963  WARN 4316 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:16:54.415  INFO 4316 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 21.435 seconds (JVM running for 23.213)
+2018-08-05 22:17:39.282  INFO 4445 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:17:39.343  INFO 4445 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 4445 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:17:39.344  INFO 4445 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:17:40.076  WARN 4445 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:17:40.313  WARN 4445 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:17:50.660  INFO 4445 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 11.553 seconds (JVM running for 12.397)
+2018-08-05 22:18:27.453 ERROR 4445 - [gecec_learnphrasebot Telegram Connection] Telegram Bots Api : BOTSESSION
+
+org.apache.http.NoHttpResponseException: api.telegram.org:443 failed to respond
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:143)
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:57)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
+	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
+	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:167)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:271)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:185)
+
+2018-08-05 22:18:58.984 ERROR 4445 - [gecec_learnphrasebot Telegram Connection] Telegram Bots Api : BOTSESSION
+
+org.apache.http.NoHttpResponseException: api.telegram.org:443 failed to respond
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:143)
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:57)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
+	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
+	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:167)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:271)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:185)
+
+2018-08-05 22:19:19.925  INFO 4635 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:19:19.955  INFO 4635 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 4635 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:19:19.956  INFO 4635 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:19:20.539  WARN 4635 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:19:20.674  WARN 4635 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:19:22.352  INFO 4635 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 2.558 seconds (JVM running for 3.158)
+2018-08-05 22:29:06.230  INFO 4966 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:29:06.273  INFO 4966 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 4966 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:29:06.273  INFO 4966 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:29:06.915  WARN 4966 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:29:07.570  WARN 4966 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:29:10.454  INFO 4966 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 4.371 seconds (JVM running for 4.974)
+2018-08-05 22:29:32.135  INFO 5094 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:29:32.172  INFO 5094 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 5094 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:29:32.173  INFO 5094 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:29:32.786  WARN 5094 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:29:33.373  WARN 5094 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:29:34.848  INFO 5094 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 2.852 seconds (JVM running for 3.413)
+2018-08-05 22:30:09.102 ERROR 5094 - [gecec_learnphrasebot Telegram Connection] Telegram Bots Api : BOTSESSION
+
+org.apache.http.NoHttpResponseException: api.telegram.org:443 failed to respond
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:143)
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:57)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
+	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
+	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:167)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:271)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:185)
+
+2018-08-05 22:32:51.721  INFO 5258 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:32:51.765  INFO 5258 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 5258 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:32:51.766  INFO 5258 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:32:52.427  WARN 5258 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:32:53.046  WARN 5258 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:36:02.828  INFO 5522 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 22:36:02.879  INFO 5522 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 5522 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 22:36:02.880  INFO 5522 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 22:36:03.539  WARN 5522 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:36:04.334  WARN 5522 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 22:36:45.210  INFO 5522 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 42.569 seconds (JVM running for 43.375)
+2018-08-05 23:36:07.663  INFO 6873 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 23:36:07.703  INFO 6873 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 6873 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 23:36:07.703  INFO 6873 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 23:36:08.368  WARN 6873 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 23:36:09.098  WARN 6873 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 23:36:10.738  INFO 6873 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 3.23 seconds (JVM running for 3.838)
+2018-08-05 23:36:46.253  INFO 6983 - [background-preinit] org.hibernate.validator.internal.util.Version : HV000001: Hibernate Validator 5.3.4.Final
+2018-08-05 23:36:46.302  INFO 6983 - [main] ru.gecec.learnphrasebot.main.Main : Starting Main on gael-ThinkPad-L380 with PID 6983 (/home/gael/PROJECTS/learnphrasebot/main/target/classes started by gael in /home/gael/PROJECTS/learnphrasebot)
+2018-08-05 23:36:46.302  INFO 6983 - [main] ru.gecec.learnphrasebot.main.Main : No active profile set, falling back to default profiles: default
+2018-08-05 23:36:46.887  WARN 6983 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 23:37:03.819  WARN 6983 - [main] org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator : HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-08-05 23:37:06.349  INFO 6983 - [main] ru.gecec.learnphrasebot.main.Main : Started Main in 20.328 seconds (JVM running for 21.294)
+2018-08-05 23:37:44.391 ERROR 6983 - [gecec_learnphrasebot Telegram Connection] Telegram Bots Api : BOTSESSION
+
+org.apache.http.NoHttpResponseException: api.telegram.org:443 failed to respond
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:143)
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:57)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
+	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
+	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:167)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:271)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:185)
+
+2018-08-05 23:38:16.022 ERROR 6983 - [gecec_learnphrasebot Telegram Connection] Telegram Bots Api : BOTSESSION
+
+org.apache.http.NoHttpResponseException: api.telegram.org:443 failed to respond
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:143)
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:57)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
+	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
+	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:167)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:271)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:185)
+
+2018-08-05 23:38:47.847 ERROR 6983 - [gecec_learnphrasebot Telegram Connection] Telegram Bots Api : BOTSESSION
+
+org.apache.http.NoHttpResponseException: api.telegram.org:443 failed to respond
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:143)
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:57)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
+	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
+	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:167)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:271)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:185)
+
+2018-08-05 23:39:19.512 ERROR 6983 - [gecec_learnphrasebot Telegram Connection] Telegram Bots Api : BOTSESSION
+
+org.apache.http.NoHttpResponseException: api.telegram.org:443 failed to respond
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:143)
+	at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:57)
+	at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)
+	at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)
+	at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:167)
+	at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)
+	at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:271)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:184)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:88)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.getUpdatesFromServer(DefaultBotSession.java:244)
+	at org.telegram.telegrambots.updatesreceivers.DefaultBotSession$ReaderThread.run(DefaultBotSession.java:185)
+

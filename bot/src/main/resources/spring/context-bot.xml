@@ -6,4 +6,6 @@
 
     <context:component-scan base-package="ru.gecec.learnphrasebot.bot"/>
 
+    <context:property-placeholder location="classpath:config/bot.properties" ignore-unresolvable="true"/>
+
 </beans>
