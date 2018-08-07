@@ -15,7 +15,6 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.bot.CommandBot;
-import ru.gecec.learnphrasebot.bot.TestBot;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;

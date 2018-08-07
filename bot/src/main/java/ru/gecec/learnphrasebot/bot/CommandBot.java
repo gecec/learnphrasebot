@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.bot.commands.HelpCommand;
-
-import java.util.List;
+import ru.gecec.learnphrasebot.bot.commands.StartCommand;
 
 @Component
 public class CommandBot extends TelegramLongPollingCommandBot {
@@ -24,6 +24,8 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         super(options, username);
         HelpCommand helpCommand = new HelpCommand(this);
         register(helpCommand);
+
+        register(new StartCommand());
 
         registerDefaultAction((absSender, message) -> {
             SendMessage commandUnknownMessage = new SendMessage();
@@ -40,12 +42,21 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
+        if (update.hasMessage()) {
+            Message message = update.getMessage();
 
-    }
+            if (message.hasText()) {
+                SendMessage echoMessage = new SendMessage();
+                echoMessage.setChatId(message.getChatId());
+                echoMessage.setText("Hey heres your message:\n" + message.getText());
 
-    @Override
-    public void onUpdatesReceived(List<Update> updates) {
-
+                try {
+                    execute(echoMessage);
+                } catch (TelegramApiException e) {
+                    BotLogger.error(LOGTAG, e);
+                }
+            }
+        }
     }
 
     @Override
