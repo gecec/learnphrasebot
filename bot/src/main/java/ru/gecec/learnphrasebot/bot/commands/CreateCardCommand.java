@@ -1,9 +1,5 @@
 package ru.gecec.learnphrasebot.bot.commands;
 
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -11,41 +7,33 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.logging.BotLogger;
-import ru.gecec.learnphrasebot.bot.session.SessionBean;
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
-import java.util.Optional;
-
-public class StartCommand extends BotCommand {
-    private static final String LOGTAG = "STARTCOMMAND";
+public class CreateCardCommand extends BotCommand {
+    private static final String LOGTAG = "CREATECARDCOMMAND";
 
     private CardRepository cardRepository;
 
-    private SessionBean sessionManager;
-
-    public StartCommand(final CardRepository cardRepository, final SessionBean sessionBean) {
-        super("start", "With this command you can start the Bot");
-
+    public CreateCardCommand(final CardRepository cardRepository) {
+        super("create", "With this command you can create new word card");
         this.cardRepository = cardRepository;
-        this.sessionManager = sessionBean;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        Session session = sessionManager.getSession(chat.getId(), user.getUserName()).get();
-
         String text = String.format("Welcome %s %s ! This bot will learn you hebrew words.", user.getFirstName(), user.getLastName());
-        Card card = cardRepository.getByOrder(new java.util.Random().nextInt(10));
-
-        session.setAttribute("cardId", card.getId());
 
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());
-        if (card != null) {
-            answer.setText(card.getWord());
-        } else {
-            answer.setText("No word for you :(");
+        answer.setText(text);
+
+        if (strings.length == 2){
+            Card card = new Card();
+            card.setWord(strings[0]);
+            card.setWordTranslation(strings[1]);
+            card = cardRepository.save(card);
+            answer.setText(String.format("Успешно создана карточка %s", card.toString()));
         }
 
         try {

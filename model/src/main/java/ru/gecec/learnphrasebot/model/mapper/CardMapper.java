@@ -10,6 +10,14 @@ public class CardMapper implements RowMapper<Card> {
     @Override
     public Card mapRow(ResultSet resultSet, int i) throws SQLException {
         Card card = new Card();
+        card.setId(resultSet.getString("id"));
+        card.setWord(resultSet.getString("word"));
+        card.setWordTranslation(resultSet.getString("word_translation"));
+        card.setCategory(resultSet.getString("category"));
+        card.setSubject(resultSet.getString("subject"));
+        card.setDescription(resultSet.getString("description"));
+        card.setWordOrder(resultSet.getInt("word_order"));
+
         return card;
     }
 }

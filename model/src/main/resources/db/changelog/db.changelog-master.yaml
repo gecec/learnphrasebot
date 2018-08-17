@@ -1,0 +1,61 @@
+{
+  "databaseChangeLog": [
+  {
+    "changeSet": {
+      "id": "1",
+      "author": "nvoxland",
+      "changes": [
+      {
+        "createTable": {
+          "tableName": "card",
+          "columns": [
+          {
+            "column": {
+              "name": "id",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "word",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "word_translation",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "category",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "subject",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "description",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "word_order",
+              "type": "int"
+            }
+          }
+          ]
+        }
+      }
+      ]
+    }
+  }
+  ]
+}
