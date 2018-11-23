@@ -1,20 +1,13 @@
-# Start with a base image containing Java runtime
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jre-alpine
 
-# Add Maintainer Info
-LABEL maintainer="gael1142@gmail.com"
+EXPOSE 80/tcp
+EXPOSE 4458
 
-# Add a volume pointing to /tmp
-VOLUME /tmp
+RUN mkdir -p /app/
+#RUN mkdir -p /app/data
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+COPY ld-musl-x86_64.path /etc/ld-musl-x86_64.path
+COPY data /app
 
-# The application's jar file
-ARG JAR_FILE=target/websocket-demo-0.0.1-SNAPSHOT.jar
-
-# Add the application's jar to the container
-ADD ${JAR_FILE} websocket-demo.jar
-
-# Run the jar file
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/websocket-demo.jar"]
+ADD main/target/main-1.0-SNAPSHOT.jar /app/learnphrasebot.jar
+CMD ["java", "-jar", "/app/learnphrasebot.jar"]
