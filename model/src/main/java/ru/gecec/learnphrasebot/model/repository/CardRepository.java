@@ -11,12 +11,15 @@ import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.mapper.CardMapper;
 
+import java.util.Random;
 import java.util.UUID;
 
 @Repository
 public class CardRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    private final Random random = new Random();
 
     @Transactional(readOnly = true)
     public Card getById(final String id){
@@ -28,6 +31,11 @@ public class CardRepository {
     public Card getByOrder(int order){
         final String sql = "select id, word, word_translation, category, subject, description, word_order from card where word_order = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{order}, new CardMapper());
+    }
+
+    public int getCardCount(){
+        final String sql = "select count(1) from card";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -54,5 +62,9 @@ public class CardRepository {
         }
 
         return getById(card.getId());
+    }
+
+    public Card getRandomCard(){
+        return getByOrder(random.nextInt(getCardCount()));
     }
 }

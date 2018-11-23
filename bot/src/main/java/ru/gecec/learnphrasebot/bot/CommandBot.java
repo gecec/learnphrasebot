@@ -76,16 +76,21 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                     Card card = cardRepository.getById(cardId);
                     if (card != null) {
                         if (card.getWordTranslation().equalsIgnoreCase(message.getText())) {
-                            echoMessage.setText("You are right! :)");
+                            echoMessage.setText("Правильно! :)");
                         } else {
-                            echoMessage.setText("You are wrong :(");
+                            echoMessage.setText(String.format("Неверно :( Правильный ответ: %s", card.getWordTranslation()));
                         }
                     }
                 } else {
-                    echoMessage.setText("No card for you");
+                    echoMessage.setText("Для Вас не нашлось карточки, попробуйте в следующий раз :(");
                 }
 
                 try {
+                    execute(echoMessage);
+
+                    Card nextCard = cardRepository.getRandomCard();
+                    session.setAttribute("cardId", nextCard.getId());
+                    echoMessage.setText(nextCard.getWord());
                     execute(echoMessage);
                 } catch (TelegramApiException e) {
                     BotLogger.error(LOGTAG, e);

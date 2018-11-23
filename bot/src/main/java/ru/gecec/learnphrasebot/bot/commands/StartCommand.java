@@ -1,9 +1,6 @@
 package ru.gecec.learnphrasebot.bot.commands;
 
 import org.apache.shiro.session.Session;
-import org.apache.shiro.session.mgt.DefaultSessionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -14,8 +11,6 @@ import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.bot.session.SessionBean;
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
-
-import java.util.Optional;
 
 public class StartCommand extends BotCommand {
     private static final String LOGTAG = "STARTCOMMAND";
@@ -35,8 +30,7 @@ public class StartCommand extends BotCommand {
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         Session session = sessionManager.getSession(chat.getId(), user.getUserName()).get();
 
-        String text = String.format("Welcome %s %s ! This bot will learn you hebrew words.", user.getFirstName(), user.getLastName());
-        Card card = cardRepository.getByOrder(new java.util.Random().nextInt(10));
+        Card card = cardRepository.getRandomCard();
 
         session.setAttribute("cardId", card.getId());
 

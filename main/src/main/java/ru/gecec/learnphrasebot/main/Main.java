@@ -1,7 +1,6 @@
 package ru.gecec.learnphrasebot.main;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,15 +13,16 @@ import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.logging.BotLogger;
+import org.telegram.telegrambots.meta.logging.BotsFileHandler;
 import ru.gecec.learnphrasebot.bot.CommandBot;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.util.logging.Level;
 
 @SpringBootApplication
 @ImportResource("classpath:spring/context-main.xml")
 public class Main implements CommandLineRunner {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
     private static final String LOGTAG = "MAINTAG";
 
     @Autowired
@@ -35,8 +35,10 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LOGGER.debug("Hello");
+        BotLogger.registerLogger(new BotsFileHandler());
+        BotLogger.setLevel(Level.ALL);
 
+        BotLogger.debug(LOGTAG, "Starting bot...");
         try {
             Authenticator.setDefault(new Authenticator() {
                 @Override
@@ -48,11 +50,12 @@ public class Main implements CommandLineRunner {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             try {
                 telegramBotsApi.registerBot(commandBot);
+                BotLogger.debug(LOGTAG, "Bot started");
             } catch (TelegramApiException ex) {
-                BotLogger.error(LOGTAG, ex);
+                BotLogger.error(LOGTAG, ex.getMessage(), ex);
             }
         } catch (Exception ex) {
-            BotLogger.error(LOGTAG, ex);
+            BotLogger.error(LOGTAG, ex.getMessage(), ex);
         }
     }
 
