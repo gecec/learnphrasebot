@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
@@ -21,6 +22,7 @@ import java.net.PasswordAuthentication;
 import java.util.logging.Level;
 
 @SpringBootApplication
+@EnableScheduling
 @ImportResource("classpath:spring/context-main.xml")
 public class Main implements CommandLineRunner {
     private static final String LOGTAG = "MAINTAG";
@@ -38,7 +40,7 @@ public class Main implements CommandLineRunner {
         BotLogger.registerLogger(new BotsFileHandler());
         BotLogger.setLevel(Level.ALL);
 
-        BotLogger.debug(LOGTAG, "Starting bot...");
+        BotLogger.info(LOGTAG, "Starting bot...");
         try {
             Authenticator.setDefault(new Authenticator() {
                 @Override
@@ -50,7 +52,7 @@ public class Main implements CommandLineRunner {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             try {
                 telegramBotsApi.registerBot(commandBot);
-                BotLogger.debug(LOGTAG, "Bot started");
+                BotLogger.info(LOGTAG, "Bot started");
             } catch (TelegramApiException ex) {
                 BotLogger.error(LOGTAG, ex.getMessage(), ex);
             }

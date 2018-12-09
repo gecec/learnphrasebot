@@ -22,18 +22,18 @@ public class CardRepository {
     private final Random random = new Random();
 
     @Transactional(readOnly = true)
-    public Card getById(final String id){
+    public Card getById(final String id) {
         final String sql = "select id, word, word_translation, category, subject, description, word_order from card where id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new CardMapper());
     }
 
     @Transactional(readOnly = true)
-    public Card getByOrder(int order){
+    public Card getByOrder(int order) {
         final String sql = "select id, word, word_translation, category, subject, description, word_order from card where word_order = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{order}, new CardMapper());
     }
 
-    public int getCardCount(){
+    public int getCardCount() {
         final String sql = "select count(1) from card";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
@@ -53,7 +53,7 @@ public class CardRepository {
                         card.getSubject(),
                         card.getDescription()
                 });
-            } catch (DataAccessException ex){
+            } catch (DataAccessException ex) {
                 BotLogger.error("REPO", ex);
             }
         } else {
@@ -64,7 +64,18 @@ public class CardRepository {
         return getById(card.getId());
     }
 
-    public Card getRandomCard(){
+    public Card getRandomCard() {
         return getByOrder(random.nextInt(getCardCount()));
+    }
+
+    public void backup(String filename) {
+        final String sql = String.format("SCRIPT TO \'%s\'", filename);
+        BotLogger.info("REPO", sql);
+
+        try {
+            jdbcTemplate.execute(sql);
+        } catch (DataAccessException ex) {
+            BotLogger.error("REPO", ex);
+        }
     }
 }
