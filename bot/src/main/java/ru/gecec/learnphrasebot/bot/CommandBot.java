@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.bot.commands.CreateCardCommand;
 import ru.gecec.learnphrasebot.bot.commands.HelpCommand;
+import ru.gecec.learnphrasebot.bot.commands.ListCardsCommand;
 import ru.gecec.learnphrasebot.bot.commands.StartCommand;
 import ru.gecec.learnphrasebot.bot.session.SessionBean;
 import ru.gecec.learnphrasebot.model.entity.Card;
@@ -45,6 +46,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
         register(new StartCommand(cardRepository, sessionBean));
         register(new CreateCardCommand(cardRepository));
+        register(new ListCardsCommand(cardRepository));
 
         registerDefaultAction((absSender, message) -> {
             SendMessage commandUnknownMessage = new SendMessage();

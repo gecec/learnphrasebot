@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.mapper.CardMapper;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -62,6 +63,11 @@ public class CardRepository {
         }
 
         return getById(card.getId());
+    }
+
+    public List<Card> getAllCards(){
+        final String sql = "select id, word, word_translation, category, subject, description, word_order from card";
+        return jdbcTemplate.query(sql, new CardMapper());
     }
 
     public Card getRandomCard() {
