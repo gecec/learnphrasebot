@@ -1,7 +1,9 @@
 package ru.gecec.learnphrasebot.main;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,22 +15,22 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.logging.BotLogger;
-import org.telegram.telegrambots.meta.logging.BotsFileHandler;
 import ru.gecec.learnphrasebot.bot.CommandBot;
 
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-import java.util.logging.Level;
 
 @SpringBootApplication
 @EnableScheduling
 @ImportResource("classpath:spring/context-main.xml")
 public class Main implements CommandLineRunner {
-    private static final String LOGTAG = "MAINTAG";
+    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     @Autowired
     private CommandBot commandBot;
+
+    @Value("${proxy.enabled}")
+    private boolean isProxyEnabled;
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
@@ -37,36 +39,40 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        BotLogger.registerLogger(new BotsFileHandler());
-        BotLogger.setLevel(Level.ALL);
+        LOGGER.info("Starting bot...");
 
-        BotLogger.info(LOGTAG, "Starting bot...");
         try {
-            Authenticator.setDefault(new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("telegram", "telegram".toCharArray());
-                }
-            });
-
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+
             try {
                 telegramBotsApi.registerBot(commandBot);
-                BotLogger.info(LOGTAG, "Bot started");
+                LOGGER.info("Bot started");
             } catch (TelegramApiException ex) {
-                BotLogger.error(LOGTAG, ex.getMessage(), ex);
+                LOGGER.error(ex.getMessage(), ex);
             }
         } catch (Exception ex) {
-            BotLogger.error(LOGTAG, ex.getMessage(), ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
+
     }
 
     @Bean
     public DefaultBotOptions defaultBotOptions() {
+        Authenticator.setDefault(new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("telegram", "telegram".toCharArray());
+            }
+        });
+
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-        botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
-        botOptions.setProxyHost("sr123.spry.fail");
-        botOptions.setProxyPort(1080);
+
+//        if (isProxyEnabled) {
+            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+            botOptions.setProxyHost("sr123.spry.fail");
+            botOptions.setProxyPort(1080);
+//        }
+
         return botOptions;
     }
 }

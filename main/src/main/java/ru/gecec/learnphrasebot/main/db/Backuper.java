@@ -18,7 +18,7 @@ public class Backuper {
     @Autowired
     private CardRepository repository;
 
-    @Scheduled(cron = "* */30 * * * *")
+    @Scheduled(cron = "0 */30 * * * *")
     public void backup(){
         BotLogger.info(LOGTAG, "Start backuping DB...");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_YY_HH_mm_SS");
