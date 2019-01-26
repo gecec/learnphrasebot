@@ -64,8 +64,8 @@
                         <configuration>
                             <skipPush>true</skipPush>
                             <contextDirectory>..</contextDirectory>
-                            <repository>gecec/learnphrasebot</repository>
-                            <tag>${project.version}</tag>
+                            <repository>learnphrasebot</repository>
+                            <tag>latest</tag>
                             <buildArgs>
                                 <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                             </buildArgs>
