@@ -32,8 +32,10 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
+
     <dependencies>
         <dependency>
             <groupId>learnphrasebot</groupId>
@@ -42,5 +44,36 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>${dockerfile-maven-version}</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skipPush>true</skipPush>
+                            <contextDirectory>..</contextDirectory>
+                            <repository>gecec/learnphrasebot</repository>
+                            <tag>${project.version}</tag>
+                            <buildArgs>
+                                <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

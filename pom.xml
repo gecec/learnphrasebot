@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <shiro.version>1.4.0</shiro.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <dockerfile-maven-version>1.4.10</dockerfile-maven-version>
     </properties>
 
     <parent>
