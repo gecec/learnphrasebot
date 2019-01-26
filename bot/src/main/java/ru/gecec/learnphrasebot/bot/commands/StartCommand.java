@@ -1,18 +1,20 @@
 package ru.gecec.learnphrasebot.bot.commands;
 
 import org.apache.shiro.session.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.bot.session.SessionBean;
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
 public class StartCommand extends BotCommand {
+    private final static Logger LOGGER = LoggerFactory.getLogger(StartCommand.class);
     private static final String LOGTAG = "STARTCOMMAND";
 
     private CardRepository cardRepository;
@@ -28,7 +30,7 @@ public class StartCommand extends BotCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        Session session = sessionManager.getSession(chat.getId(), user.getUserName()).get();
+        Session session = sessionManager.getSession(chat.getId(), user.getUserName());
 
         Card card = cardRepository.getRandomCard();
 
@@ -44,8 +46,8 @@ public class StartCommand extends BotCommand {
 
         try {
             absSender.execute(answer);
-        } catch (TelegramApiException e) {
-            BotLogger.error(LOGTAG, e);
+        } catch (TelegramApiException ex) {
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 }

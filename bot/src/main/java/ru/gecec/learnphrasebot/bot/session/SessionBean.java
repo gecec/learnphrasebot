@@ -17,16 +17,16 @@ public class SessionBean {
         this.sessionManager = new DefaultSessionManager();
     }
 
-    public Optional<Session> getSession(final Long chatId, String fromUserName) {
+    public Session getSession(final Long chatId, String fromUserName) {
         DefaultChatIdConverter chatIdConverter = new DefaultChatIdConverter(chatId);
 
         try {
-            return Optional.of(sessionManager.getSession(chatIdConverter));
+            return sessionManager.getSession(chatIdConverter);
         } catch (UnknownSessionException ex) {
             SessionContext botSession = new DefaultChatSessionContext(chatId, fromUserName);
             AbstractSessionDAO sessionDAO = (AbstractSessionDAO) sessionManager.getSessionDAO();
             sessionDAO.setSessionIdGenerator(chatIdConverter);
-            return Optional.of(sessionManager.start(botSession));
+            return sessionManager.start(botSession);
         }
     }
 

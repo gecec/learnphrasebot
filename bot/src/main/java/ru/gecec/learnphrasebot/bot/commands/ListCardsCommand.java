@@ -1,6 +1,8 @@
 package ru.gecec.learnphrasebot.bot.commands;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -11,9 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ListCardsCommand extends BotCommand implements BasicCommand {
+    private final static Logger LOGGER = LoggerFactory.getLogger(ListCardsCommand.class);
 
     private static final String LOGTAG = "LISTCARDSCOMMAND";
-    private final static List<String> admins = Arrays.asList("gecec");
+    private final static List<String> admins = Arrays.asList("gecec", "Ksuha_muha");
 
     private CardRepository cardRepository;
 
@@ -24,11 +27,13 @@ public class ListCardsCommand extends BotCommand implements BasicCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        /*if (!admins.stream().filter(admin -> user.getUserName().equals(admin)).findFirst().isPresent()) {
-            BotLogger.error(LOGTAG, String.format("Unauthorized user %s tries to create card", user.getUserName()));
+        if (!admins
+                .stream()
+                .anyMatch(admin -> user.getUserName().equals(admin))) {
+            LOGGER.error(String.format("Unauthorized user %s tries to create card", user.getUserName()));
             sendMessage(chat.getId().toString(), absSender, String.format("У вас нет прав на создание карточки"));
             return;
-        }*/
+        }
 
         StringBuilder builder = new StringBuilder();
         //TODO check for message length (4096 symbols)

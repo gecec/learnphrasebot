@@ -1,6 +1,8 @@
 package ru.gecec.learnphrasebot.bot;
 
 import org.apache.shiro.session.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -11,9 +13,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.bot.commands.CreateCardCommand;
 import ru.gecec.learnphrasebot.bot.commands.HelpCommand;
+import ru.gecec.learnphrasebot.bot.commands.InfoCommand;
 import ru.gecec.learnphrasebot.bot.commands.ListCardsCommand;
 import ru.gecec.learnphrasebot.bot.commands.StartCommand;
 import ru.gecec.learnphrasebot.bot.session.SessionBean;
@@ -24,6 +26,8 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class CommandBot extends TelegramLongPollingCommandBot {
+    private final static Logger LOGGER = LoggerFactory.getLogger(CommandBot.class);
+
     private static final String LOGTAG = "COMMANDSHANDLER";
 
     @Autowired
@@ -47,6 +51,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         register(new StartCommand(cardRepository, sessionBean));
         register(new CreateCardCommand(cardRepository));
         register(new ListCardsCommand(cardRepository));
+        register(new InfoCommand());
 
         registerDefaultAction((absSender, message) -> {
             SendMessage commandUnknownMessage = new SendMessage();
@@ -54,9 +59,11 @@ public class CommandBot extends TelegramLongPollingCommandBot {
             commandUnknownMessage.setText("The command '" + message.getText() + "' is not known by this bot. Here comes some help ");
             try {
                 absSender.execute(commandUnknownMessage);
-            } catch (TelegramApiException e) {
-                BotLogger.error(LOGTAG, e);
+            } catch (TelegramApiException ex) {
+                LOGGER.error(ex.getMessage(), ex);
+                throw new IllegalStateException(ex);
             }
+
             helpCommand.execute(absSender, message.getFrom(), message.getChat(), new String[]{});
         });
     }
@@ -68,19 +75,29 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
             if (message.hasText()) {
                 //FIXME session is null
-                Session session = sessionBean.getSession(message.getChatId(), message.getFrom().getUserName()).get();
+                Session session = sessionBean.getSession(message.getChatId(), message.getFrom().getUserName());
 
                 String cardId = (String) session.getAttribute("cardId");
+                BotMode currentMode = (BotMode) session.getAttribute("mode");
+
                 SendMessage echoMessage = new SendMessage();
                 echoMessage.setChatId(message.getChatId());
 
                 if (!StringUtils.isEmpty(cardId)) {
                     Card card = cardRepository.getById(cardId);
                     if (card != null) {
-                        if (card.getWordTranslation().equalsIgnoreCase(message.getText())) {
-                            echoMessage.setText("Правильно! :)");
-                        } else {
-                            echoMessage.setText(String.format("Неверно :( Правильный ответ: %s", card.getWordTranslation()));
+                        if (BotMode.HEBREW.equals(currentMode)) {
+                            if (card.getWordTranslation().equalsIgnoreCase(message.getText())) {
+                                echoMessage.setText("Правильно! :)");
+                            } else {
+                                echoMessage.setText(String.format("Неверно :( Правильный ответ: %s", card.getWordTranslation()));
+                            }
+                        } else if (BotMode.RUSSIAN.equals(currentMode)){
+                            if (card.getWord().equalsIgnoreCase(message.getText())) {
+                                echoMessage.setText("Правильно! :)");
+                            } else {
+                                echoMessage.setText(String.format("Неверно :( Правильный ответ: %s", card.getWord()));
+                            }
                         }
                     }
                 } else {
@@ -92,10 +109,12 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
                     Card nextCard = cardRepository.getRandomCard();
                     session.setAttribute("cardId", nextCard.getId());
+                    if (currentMode == null) session.setAttribute("mode", BotMode.HEBREW);
+
                     echoMessage.setText(nextCard.getWord());
                     execute(echoMessage);
-                } catch (TelegramApiException e) {
-                    BotLogger.error(LOGTAG, e);
+                } catch (TelegramApiException ex) {
+                    LOGGER.error(ex.getMessage(), ex);
                 }
             }
         }
