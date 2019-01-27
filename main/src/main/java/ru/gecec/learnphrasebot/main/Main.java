@@ -68,9 +68,9 @@ public class Main implements CommandLineRunner {
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
 //        if (isProxyEnabled) {
-            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+            /*botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
             botOptions.setProxyHost("sr123.spry.fail");
-            botOptions.setProxyPort(1080);
+            botOptions.setProxyPort(1080);*/
 //        }
 
         return botOptions;

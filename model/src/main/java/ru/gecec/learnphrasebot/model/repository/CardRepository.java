@@ -20,8 +20,6 @@ public class CardRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final Random random = new Random();
-
     @Transactional(readOnly = true)
     public Card getById(final String id) {
         final String sql = "select id, word, word_translation, category, subject, description, word_order from card where id = ?";
@@ -68,10 +66,6 @@ public class CardRepository {
     public List<Card> getAllCards(){
         final String sql = "select id, word, word_translation, category, subject, description, word_order from card";
         return jdbcTemplate.query(sql, new CardMapper());
-    }
-
-    public Card getRandomCard() {
-        return getByOrder(random.nextInt(getCardCount()));
     }
 
     public void backup(String filename) {

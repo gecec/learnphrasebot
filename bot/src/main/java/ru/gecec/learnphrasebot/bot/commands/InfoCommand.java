@@ -7,22 +7,24 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
-import ru.gecec.learnphrasebot.model.repository.CardRepository;
-
-import java.util.Arrays;
-import java.util.List;
+import ru.gecec.learnphrasebot.bot.session.SessionManager;
+import ru.gecec.learnphrasebot.model.entity.UserSession;
 
 public class InfoCommand extends BotCommand implements BasicCommand {
     private final static Logger LOGGER = LoggerFactory.getLogger(InfoCommand.class);
     private static final String LOGTAG = "INFOCOMMAND";
 
-    public InfoCommand() {
-        super("info", "With this command you list cards");
+    private SessionManager sessionManager;
+
+    public InfoCommand(final SessionManager sessionManager) {
+        super("info", "With this command you get info about current mode");
+        this.sessionManager = sessionManager;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        String currentStatus = "HEBREW";
+        UserSession session = new UserSession(chat.getId(), user.getUserName());
+        String currentStatus = String.format("Текущий языковой режим: %s", sessionManager.getMode(session));
         sendMessage(chat.getId().toString(), absSender, currentStatus);
     }
 

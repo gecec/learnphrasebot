@@ -17,12 +17,19 @@ import ru.gecec.learnphrasebot.bot.commands.CreateCardCommand;
 import ru.gecec.learnphrasebot.bot.commands.HelpCommand;
 import ru.gecec.learnphrasebot.bot.commands.InfoCommand;
 import ru.gecec.learnphrasebot.bot.commands.ListCardsCommand;
+import ru.gecec.learnphrasebot.bot.commands.ModeCommand;
 import ru.gecec.learnphrasebot.bot.commands.StartCommand;
-import ru.gecec.learnphrasebot.bot.session.SessionBean;
+import ru.gecec.learnphrasebot.bot.service.BotMode;
+import ru.gecec.learnphrasebot.bot.service.CardService;
+import ru.gecec.learnphrasebot.bot.service.WordChecker;
+import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.Card;
+import ru.gecec.learnphrasebot.model.entity.UserSession;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
 import javax.annotation.PostConstruct;
+
+import static ru.gecec.learnphrasebot.bot.service.BotMode.*;
 
 @Component
 public class CommandBot extends TelegramLongPollingCommandBot {
@@ -33,14 +40,20 @@ public class CommandBot extends TelegramLongPollingCommandBot {
     @Autowired
     private CardRepository cardRepository;
 
+    @Autowired
+    private CardService cardService;
+
+    private WordChecker checker;
+
     @Value("${bot.token}")
     private String token;
 
     @Autowired
-    SessionBean sessionBean;
+    SessionManager sessionManager;
 
     public CommandBot(@Autowired DefaultBotOptions options, @Value("${bot.username}") String username) {
         super(options, username);
+        checker = new WordChecker();
     }
 
     @PostConstruct
@@ -48,10 +61,11 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         HelpCommand helpCommand = new HelpCommand(this);
         register(helpCommand);
 
-        register(new StartCommand(cardRepository, sessionBean));
+        register(new StartCommand(cardService, sessionManager));
         register(new CreateCardCommand(cardRepository));
         register(new ListCardsCommand(cardRepository));
-        register(new InfoCommand());
+        register(new InfoCommand(sessionManager));
+        register(new ModeCommand(sessionManager));
 
         registerDefaultAction((absSender, message) -> {
             SendMessage commandUnknownMessage = new SendMessage();
@@ -74,11 +88,10 @@ public class CommandBot extends TelegramLongPollingCommandBot {
             Message message = update.getMessage();
 
             if (message.hasText()) {
-                //FIXME session is null
-                Session session = sessionBean.getSession(message.getChatId(), message.getFrom().getUserName());
+                UserSession userSession = new UserSession(message.getChatId(), message.getFrom().getUserName());
 
-                String cardId = (String) session.getAttribute("cardId");
-                BotMode currentMode = (BotMode) session.getAttribute("mode");
+                String cardId = sessionManager.getCardId(userSession);
+                BotMode currentMode = sessionManager.getMode(userSession);
 
                 SendMessage echoMessage = new SendMessage();
                 echoMessage.setChatId(message.getChatId());
@@ -86,18 +99,12 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                 if (!StringUtils.isEmpty(cardId)) {
                     Card card = cardRepository.getById(cardId);
                     if (card != null) {
-                        if (BotMode.HEBREW.equals(currentMode)) {
-                            if (card.getWordTranslation().equalsIgnoreCase(message.getText())) {
-                                echoMessage.setText("Правильно! :)");
-                            } else {
-                                echoMessage.setText(String.format("Неверно :( Правильный ответ: %s", card.getWordTranslation()));
-                            }
-                        } else if (BotMode.RUSSIAN.equals(currentMode)){
-                            if (card.getWord().equalsIgnoreCase(message.getText())) {
-                                echoMessage.setText("Правильно! :)");
-                            } else {
-                                echoMessage.setText(String.format("Неверно :( Правильный ответ: %s", card.getWord()));
-                            }
+                        if (RANDOM.equals(currentMode)){
+                            BotMode randomMode = sessionManager.getRandomMode(userSession);
+                            echoMessage.setText(checker.check(card, randomMode, message.getText()));
+                            sessionManager.invertRandomMode(userSession);
+                        } else {
+                            echoMessage.setText(checker.check(card, currentMode, message.getText()));
                         }
                     }
                 } else {
@@ -107,17 +114,37 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                 try {
                     execute(echoMessage);
 
-                    Card nextCard = cardRepository.getRandomCard();
-                    session.setAttribute("cardId", nextCard.getId());
-                    if (currentMode == null) session.setAttribute("mode", BotMode.HEBREW);
+                    Card nextCard = cardService.getRandomCard();
 
-                    echoMessage.setText(nextCard.getWord());
+                    sessionManager.setCardId(userSession, nextCard.getId());
+
+                    if (currentMode == null) sessionManager.setMode(userSession, HEBREW);
+
+                    echoMessage.setText(getWord(userSession, currentMode, nextCard));
+
                     execute(echoMessage);
                 } catch (TelegramApiException ex) {
                     LOGGER.error(ex.getMessage(), ex);
                 }
             }
         }
+    }
+
+    private String getWord(UserSession userSession, BotMode currentMode, Card nextCard) {
+        if (HEBREW.equals(currentMode)) return nextCard.getWord();
+
+        if (RUSSIAN.equals(currentMode)) return nextCard.getWordTranslation();
+
+        if (RANDOM.equals(currentMode)){
+            BotMode randomMode = sessionManager.getRandomMode(userSession);
+            if (RANDOM_HEBREW.equals(randomMode)){
+                return nextCard.getWord();
+            } else if (RANDOM_RUSSIAN.equals(randomMode)){
+                return nextCard.getWordTranslation();
+            }
+        }
+
+        return "";
     }
 
     @Override

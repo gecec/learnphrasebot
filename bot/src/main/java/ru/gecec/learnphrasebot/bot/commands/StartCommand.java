@@ -9,32 +9,34 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import ru.gecec.learnphrasebot.bot.session.SessionBean;
+import ru.gecec.learnphrasebot.bot.service.CardService;
+import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.Card;
+import ru.gecec.learnphrasebot.model.entity.UserSession;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
 public class StartCommand extends BotCommand {
     private final static Logger LOGGER = LoggerFactory.getLogger(StartCommand.class);
     private static final String LOGTAG = "STARTCOMMAND";
 
-    private CardRepository cardRepository;
+    private CardService cardService;
 
-    private SessionBean sessionManager;
+    private SessionManager sessionManager;
 
-    public StartCommand(final CardRepository cardRepository, final SessionBean sessionBean) {
+    public StartCommand(final CardService cardService, final SessionManager sessionManager) {
         super("start", "With this command you can start the Bot");
 
-        this.cardRepository = cardRepository;
-        this.sessionManager = sessionBean;
+        this.cardService = cardService;
+        this.sessionManager = sessionManager;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        Session session = sessionManager.getSession(chat.getId(), user.getUserName());
+        UserSession userSession = new UserSession(chat.getId(), user.getUserName());
 
-        Card card = cardRepository.getRandomCard();
+        Card card = cardService.getRandomCard();
 
-        session.setAttribute("cardId", card.getId());
+        sessionManager.setCardId(userSession, card.getId());
 
         SendMessage answer = new SendMessage();
         answer.setChatId(chat.getId().toString());

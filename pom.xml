@@ -12,7 +12,6 @@
         <module>model</module>
         <module>bot</module>
         <module>main</module>
-        <module>service</module>
     </modules>
 
     <packaging>pom</packaging>
