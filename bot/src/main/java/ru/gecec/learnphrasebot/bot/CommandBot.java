@@ -88,6 +88,8 @@ public class CommandBot extends TelegramLongPollingCommandBot {
             Message message = update.getMessage();
 
             if (message.hasText()) {
+                LOGGER.info(message.getText());
+
                 UserSession userSession = new UserSession(message.getChatId(), message.getFrom().getUserName());
 
                 String cardId = sessionManager.getCardId(userSession);

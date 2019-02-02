@@ -1,8 +1,6 @@
 package ru.gecec.learnphrasebot.model.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,13 +10,12 @@ import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.mapper.CardMapper;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @Repository
-public class CardRepository {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+public class CardRepository extends BaseRepository {
+    /*@Autowired
+    private JdbcTemplate jdbcTemplate;*/
 
     @Transactional(readOnly = true)
     public Card getById(final String id) {

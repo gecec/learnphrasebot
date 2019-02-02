@@ -53,6 +53,67 @@
           }
           ]
         }
+      },
+      {
+        "createTable": {
+          "tableName": "user_attempt",
+          "columns": [
+          {
+            "column": {
+              "name": "id",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "user_id",
+              "type": "int"
+            }
+          },
+          {
+            "column": {
+              "name": "card_id",
+              "type": "varchar(255)"
+            }
+          },
+          {
+            "column": {
+              "name": "word_success",
+              "type": "int"
+            }
+          },
+          {
+            "column": {
+              "name": "word_fail",
+              "type": "int"
+            }
+          },
+          {
+            "column": {
+              "name": "translation_success",
+              "type": "int"
+            }
+          },
+          {
+            "column": {
+              "name": "translation_failure",
+              "type": "int"
+            }
+          },
+          {
+            "column": {
+              "name": "created_on",
+              "type": "timestamp"
+            }
+          },
+          {
+            "column": {
+              "name": "updated_on",
+              "type": "timestamp"
+            }
+          }
+          ]
+        }
       }
       ]
     }
