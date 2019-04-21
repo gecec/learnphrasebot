@@ -3,7 +3,7 @@
   {
     "changeSet": {
       "id": "1",
-      "author": "nvoxland",
+      "author": "gael",
       "changes": [
       {
         "createTable": {
@@ -53,7 +53,15 @@
           }
           ]
         }
-      },
+      }
+      ]
+    }
+  },
+  {
+    "changeSet": {
+      "id": "2",
+      "author": "gael",
+      "changes": [
       {
         "createTable": {
           "tableName": "user_attempt",
@@ -109,6 +117,12 @@
           {
             "column": {
               "name": "updated_on",
+              "type": "timestamp"
+            }
+          },
+          {
+            "column": {
+              "name": "last_showtime",
               "type": "timestamp"
             }
           }

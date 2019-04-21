@@ -1,6 +1,5 @@
 package ru.gecec.learnphrasebot.bot;
 
-import org.apache.shiro.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +18,23 @@ import ru.gecec.learnphrasebot.bot.commands.InfoCommand;
 import ru.gecec.learnphrasebot.bot.commands.ListCardsCommand;
 import ru.gecec.learnphrasebot.bot.commands.ModeCommand;
 import ru.gecec.learnphrasebot.bot.commands.StartCommand;
+import ru.gecec.learnphrasebot.bot.service.AttemptService;
 import ru.gecec.learnphrasebot.bot.service.BotMode;
 import ru.gecec.learnphrasebot.bot.service.CardService;
 import ru.gecec.learnphrasebot.bot.service.WordChecker;
 import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.Card;
+import ru.gecec.learnphrasebot.model.entity.CheckResult;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
 import javax.annotation.PostConstruct;
 
-import static ru.gecec.learnphrasebot.bot.service.BotMode.*;
+import static ru.gecec.learnphrasebot.bot.service.BotMode.HEBREW;
+import static ru.gecec.learnphrasebot.bot.service.BotMode.RANDOM;
+import static ru.gecec.learnphrasebot.bot.service.BotMode.RANDOM_HEBREW;
+import static ru.gecec.learnphrasebot.bot.service.BotMode.RANDOM_RUSSIAN;
+import static ru.gecec.learnphrasebot.bot.service.BotMode.RUSSIAN;
 
 @Component
 public class CommandBot extends TelegramLongPollingCommandBot {
@@ -42,6 +47,9 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
     @Autowired
     private CardService cardService;
+
+    @Autowired
+    private AttemptService attemptsService;
 
     private WordChecker checker;
 
@@ -101,13 +109,16 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                 if (!StringUtils.isEmpty(cardId)) {
                     Card card = cardRepository.getById(cardId);
                     if (card != null) {
+                        BotMode mode = currentMode;
                         if (RANDOM.equals(currentMode)){
                             BotMode randomMode = sessionManager.getRandomMode(userSession);
-                            echoMessage.setText(checker.check(card, randomMode, message.getText()));
+                            mode = randomMode;
                             sessionManager.invertRandomMode(userSession);
-                        } else {
-                            echoMessage.setText(checker.check(card, currentMode, message.getText()));
                         }
+
+                        CheckResult result = checker.check(card, mode, message.getText());
+                        attemptsService.processResult(result, card.getId(), message.getFrom().getId(), mode);
+                        echoMessage.setText(result.getAnswer());
                     }
                 } else {
                     echoMessage.setText("Для Вас не нашлось карточки, попробуйте в следующий раз :(");
@@ -116,7 +127,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                 try {
                     execute(echoMessage);
 
-                    Card nextCard = cardService.getRandomCard();
+                    Card nextCard = cardService.getRarelyUsedCard(message.getFrom().getId(), currentMode);
 
                     sessionManager.setCardId(userSession, nextCard.getId());
 

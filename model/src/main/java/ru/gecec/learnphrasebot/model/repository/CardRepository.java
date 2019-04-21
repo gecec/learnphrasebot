@@ -1,6 +1,7 @@
 package ru.gecec.learnphrasebot.model.repository;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,27 +11,37 @@ import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.mapper.CardMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public class CardRepository extends BaseRepository {
-    /*@Autowired
-    private JdbcTemplate jdbcTemplate;*/
 
     @Transactional(readOnly = true)
     public Card getById(final String id) {
-        final String sql = "select id, word, word_translation, category, subject, description, word_order from card where id = ?";
+        final String sql = sqlResolver.getSql(queryName("getById"));
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new CardMapper());
     }
 
     @Transactional(readOnly = true)
     public Card getByOrder(int order) {
-        final String sql = "select id, word, word_translation, category, subject, description, word_order from card where word_order = ?";
+        final String sql = sqlResolver.getSql(queryName("getByOrder"));
         return jdbcTemplate.queryForObject(sql, new Object[]{order}, new CardMapper());
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Card> getNotAttemptedByUser(int userId){
+        final String sql = sqlResolver.getSql(queryName("getNotAttemptedByUser"));
+
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(sql, new Object[]{userId}, new CardMapper()));
+        } catch (EmptyResultDataAccessException ex){
+            return Optional.empty();
+        }
+    }
+
     public int getCardCount() {
-        final String sql = "select count(1) from card";
+        final String sql = sqlResolver.getSql(queryName("getCardCount"));
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
@@ -38,7 +49,7 @@ public class CardRepository extends BaseRepository {
     public Card save(final Card card) {
         if (StringUtils.isEmpty(card.getId())) {
             card.setId(UUID.randomUUID().toString());
-            final String sql = "insert into card (id, word, word_translation, category, subject, description) values (?,?,?,?,?,?)";
+            final String sql = sqlResolver.getSql(queryName("insert"));
 
             try {
                 jdbcTemplate.update(sql, new Object[]{
@@ -61,7 +72,7 @@ public class CardRepository extends BaseRepository {
     }
 
     public List<Card> getAllCards(){
-        final String sql = "select id, word, word_translation, category, subject, description, word_order from card";
+        final String sql =sqlResolver.getSql(queryName("getAllCards"));
         return jdbcTemplate.query(sql, new CardMapper());
     }
 
@@ -75,4 +86,52 @@ public class CardRepository extends BaseRepository {
             BotLogger.error("REPO", ex);
         }
     }
+
+    @Override
+    protected String getQueryPrefix() {
+        return "card";
+    }
 }
+
+   /* public void fetchUsers(final UserSearchCriteria searchCriteria,
+                           final BatchProcessor<User> batchProcessor,
+                           final int batchSize) {
+        String sql = sqlResolver.getSql(getQueryPrefix() + "fetch.users");
+        if (searchCriteria != null) {
+            sql += "where 1=1";
+            if (searchCriteria.getChunkStart() > 0) {
+                sql += " and id >= ?";
+            }
+            if (searchCriteria.getChunkEnd() > 0) {
+                sql += " and id <= ?";
+            }
+        }
+        realJdbcTemplate.query(new StreamingStatementCreator(sql, batchSize),
+                ps -> {
+                    if (searchCriteria != null) {
+                        int num = 1;
+                        if (searchCriteria.getChunkStart() > 0) {
+                            ps.setLong(num++, searchCriteria.getChunkStart());
+                        }
+                        if (searchCriteria.getChunkEnd() > 0) {
+                            ps.setLong(num++, searchCriteria.getChunkEnd());
+                        }
+                    }
+                }, rs -> {
+                    List<User> users = new ArrayList<>(batchSize);
+                    int rowNum = 0;
+                    while (rs.next()) {
+                        users.add(getMapper().mapRow(rs, rowNum++));
+
+                        if (rowNum > 0 && rowNum % batchSize == 0) {
+                            batchProcessor.process(users);
+                            users.clear();
+                        }
+                    }
+                    if (!users.isEmpty()) {
+                        batchProcessor.process(users);
+                    }
+
+                    return null;
+                });
+    }*/

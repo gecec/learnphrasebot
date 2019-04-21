@@ -9,6 +9,7 @@ spring:
     ansi:
     enabled: ALWAYS
 
+
 ---
 
 spring:
@@ -28,8 +29,6 @@ spring:
       username:
       password:
 
-proxy:
-  enabled: true
 
 liquibase:
   enabled: true

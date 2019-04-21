@@ -154,3 +154,4 @@ logback_debug.xml
 node_modules/
 
 *.db
+data/
