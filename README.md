@@ -23,5 +23,3 @@ When you execute the command, `sudo systemctl start docker`, it creates a docker
 
 sudo chmod a+rwx /var/run/docker.sock
 sudo chmod a+rwx /var/run/docker.pid
-
-As you see, it doesn't show any error in PyCharm. 
