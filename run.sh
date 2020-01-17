@@ -1,3 +1,3 @@
 #!/bin/sh
 
-java -Dspring.profiles.active=docker -jar /app/learnphrasebot.jar
+java -Dspring.profiles.active=docker -jar /srv/learnphrasebot.jar
