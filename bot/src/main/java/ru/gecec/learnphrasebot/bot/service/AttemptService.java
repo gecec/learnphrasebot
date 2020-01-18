@@ -12,8 +12,13 @@ import static ru.gecec.learnphrasebot.bot.service.BotMode.*;
 
 @Service
 public class AttemptService {
+
+    private final UserAttemptsRepository attemptsRepository;
+
     @Autowired
-    private UserAttemptsRepository attemptsRepository;
+    public AttemptService(UserAttemptsRepository attemptsRepository) {
+        this.attemptsRepository = attemptsRepository;
+    }
 
     public void processResult(CheckResult result, String cardId, int userId, BotMode mode){
         Optional<UserAttempt> res = attemptsRepository.getByUserIdAndCardId(userId, cardId);

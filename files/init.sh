@@ -24,7 +24,7 @@ fi
 if [[ -f "/srv/run.sh" ]]; then
     echo "execute /srv/run.sh"
     chmod +x /srv/run.sh
-    /srv/run.sh
+    su-exec app /srv/run.sh
     if [[ "$?" -ne "0" ]]; then
       echo "/srv/run.sh failed"
       exit 1

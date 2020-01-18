@@ -1,12 +1,17 @@
 package ru.gecec.learnphrasebot.model.entity;
 
+import java.util.Objects;
+import java.util.StringJoiner;
+
 public class Card {
     private String id;
     private String word;
-    private String wordTranslation;
+    private String translation;
     private String category;
     private String subject; //Часть речи
     private String description;
+    private String transcript;
+
     private int wordOrder;
 
     public String getId() {
@@ -25,12 +30,12 @@ public class Card {
         this.word = word;
     }
 
-    public String getWordTranslation() {
-        return wordTranslation;
+    public String getTranslation() {
+        return translation;
     }
 
-    public void setWordTranslation(String wordTranslation) {
-        this.wordTranslation = wordTranslation;
+    public void setTranslation(String translation) {
+        this.translation = translation;
     }
 
     public String getCategory() {
@@ -65,16 +70,45 @@ public class Card {
         this.wordOrder = wordOrder;
     }
 
+    public String getTranscript() {
+        return transcript;
+    }
+
+    public void setTranscript(String transcript) {
+        this.transcript = transcript;
+    }
+
     @Override
     public String toString() {
-        return "Card{" +
-                "id='" + id + '\'' +
-                ", word='" + word + '\'' +
-                ", wordTranslation='" + wordTranslation + '\'' +
-                ", category='" + category + '\'' +
-                ", subject='" + subject + '\'' +
-                ", description='" + description + '\'' +
-                ", wordOrder=" + wordOrder +
-                '}';
+        return new StringJoiner(", ", Card.class.getSimpleName() + "[", "]")
+                .add("id='" + id + "'")
+                .add("word='" + word + "'")
+                .add("translation='" + translation + "'")
+                .add("category='" + category + "'")
+                .add("subject='" + subject + "'")
+                .add("description='" + description + "'")
+                .add("transcript='" + transcript + "'")
+                .add("wordOrder=" + wordOrder)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return wordOrder == card.wordOrder &&
+                id.equals(card.id) &&
+                word.equals(card.word) &&
+                Objects.equals(translation, card.translation) &&
+                Objects.equals(category, card.category) &&
+                Objects.equals(subject, card.subject) &&
+                Objects.equals(description, card.description) &&
+                Objects.equals(transcript, card.transcript);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, word, translation, category, subject, description, transcript, wordOrder);
     }
 }

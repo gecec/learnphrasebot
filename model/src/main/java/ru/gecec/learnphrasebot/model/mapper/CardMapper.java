@@ -12,7 +12,7 @@ public class CardMapper implements RowMapper<Card> {
         Card card = new Card();
         card.setId(resultSet.getString("id"));
         card.setWord(resultSet.getString("word"));
-        card.setWordTranslation(resultSet.getString("word_translation"));
+        card.setTranslation(resultSet.getString("word_translation"));
         card.setCategory(resultSet.getString("category"));
         card.setSubject(resultSet.getString("subject"));
         card.setDescription(resultSet.getString("description"));

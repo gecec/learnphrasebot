@@ -55,7 +55,7 @@ public class CardRepository extends BaseRepository {
                 jdbcTemplate.update(sql, new Object[]{
                         card.getId(),
                         card.getWord(),
-                        card.getWordTranslation(),
+                        card.getTranslation(),
                         card.getCategory(),
                         card.getSubject(),
                         card.getDescription()

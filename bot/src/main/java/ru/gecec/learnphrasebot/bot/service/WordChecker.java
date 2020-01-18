@@ -20,11 +20,11 @@ public class WordChecker {
     }
 
     private CheckResult checkHebrew(Card card, String answer){
-        if (card.getWordTranslation().equalsIgnoreCase(answer)){
+        if (card.getTranslation().equalsIgnoreCase(answer)){
             return new CheckResult(CORRECT_ANSWER, true);
         }
 
-        return new CheckResult(String.format(WRONG_ANSWER, card.getWordTranslation()), false);
+        return new CheckResult(String.format(WRONG_ANSWER, card.getTranslation()), false);
     }
 
     private CheckResult checkRussian(Card card, String answer){

@@ -7,6 +7,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import ru.gecec.learnphrasebot.bot.CardCreationException;
+import ru.gecec.learnphrasebot.bot.service.CardService;
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
@@ -19,11 +21,11 @@ public class CreateCardCommand extends BotCommand implements BasicCommand {
     private final static List<String> admins = Arrays.asList("gecec", "Ksuha_muha");
     private static final String LOGTAG = "CREATECARDCOMMAND";
 
-    private CardRepository cardRepository;
+    private CardService cardService;
 
-    public CreateCardCommand(final CardRepository cardRepository) {
+    public CreateCardCommand(final CardService cardService) {
         super("create", "With this command you can create new word card");
-        this.cardRepository = cardRepository;
+        this.cardService = cardService;
     }
 
     @Override
@@ -37,19 +39,11 @@ public class CreateCardCommand extends BotCommand implements BasicCommand {
             return;
         }
 
-        if (strings.length != 0) {
-            String[] words = String.join("", strings).split(":");
-            if (words.length != 2) {
-                sendMessage(chat.getId().toString(), absSender, String.format("Неверный формат. Правильно <перевод>:<слово или фраза на иврите>"));
-            }
-
-            Card card = new Card();
-            card.setWord(words[1]);
-            card.setWordTranslation(words[0]);
-            card = cardRepository.save(card);
+        try {
+            Card card = cardService.createCardFromTemplate(String.join("", strings));
             sendMessage(chat.getId().toString(), absSender, String.format("Успешно создана карточка %s", card.toString()));
-        } else {
-            sendMessage(chat.getId().toString(), absSender, String.format("Неверный формат. Правильно <перевод>:<слово или фраза на иврите>"));
+        } catch (CardCreationException ex) {
+            sendMessage(chat.getId().toString(), absSender, ex.getMessage());
             return;
         }
     }

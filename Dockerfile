@@ -35,16 +35,16 @@ RUN \
     adduser -s /bin/sh -D -u $MYUID $MYUSER && chown -R $MYUSER:$MYUSER /home/$MYUSER && \
     delgroup ping && addgroup -g 998 ping && \
     addgroup -g ${DOCKER_GID} docker && addgroup ${MYUSER} docker && \
-    mkdir -p /srv && chown -R $MYUSER:$MYUSER /srv && \
+    mkdir -p /srv && mkdir -p /srv/data && mkdir -p /srv/logs && chown -R $MYUSER:$MYUSER /srv && \
     cp /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime && \
     echo "${TIME_ZONE}" > /etc/timezone && date && \
     ln -s /usr/bin/dumb-init /sbin/dinit && \
     rm -rf /var/cache/apk/*
 
+RUN chmod 775 /srv/logs
+
 EXPOSE 80/tcp
 EXPOSE 4458
-
-RUN mkdir -p /src/data
 
 COPY ld-musl-x86_64.path /etc/ld-musl-x86_64.path
 COPY data /srv/data

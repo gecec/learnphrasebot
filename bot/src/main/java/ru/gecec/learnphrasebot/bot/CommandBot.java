@@ -70,7 +70,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         register(helpCommand);
 
         register(new StartCommand(cardService, sessionManager));
-        register(new CreateCardCommand(cardRepository));
+        register(new CreateCardCommand(cardService));
         register(new ListCardsCommand(cardRepository));
         register(new InfoCommand(sessionManager));
         register(new ModeCommand(sessionManager));
@@ -146,14 +146,14 @@ public class CommandBot extends TelegramLongPollingCommandBot {
     private String getWord(UserSession userSession, BotMode currentMode, Card nextCard) {
         if (HEBREW.equals(currentMode)) return nextCard.getWord();
 
-        if (RUSSIAN.equals(currentMode)) return nextCard.getWordTranslation();
+        if (RUSSIAN.equals(currentMode)) return nextCard.getTranslation();
 
         if (RANDOM.equals(currentMode)){
             BotMode randomMode = sessionManager.getRandomMode(userSession);
             if (RANDOM_HEBREW.equals(randomMode)){
                 return nextCard.getWord();
             } else if (RANDOM_RUSSIAN.equals(randomMode)){
-                return nextCard.getWordTranslation();
+                return nextCard.getTranslation();
             }
         }
 

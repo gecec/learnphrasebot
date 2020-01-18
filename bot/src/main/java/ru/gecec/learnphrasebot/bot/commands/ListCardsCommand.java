@@ -40,7 +40,7 @@ public class ListCardsCommand extends BotCommand implements BasicCommand {
         cardRepository.getAllCards()
                 .stream()
                 .forEach(card -> builder
-                        .append(card.getWordTranslation())
+                        .append(card.getTranslation())
                         .append(" : ")
                         .append(card.getWord())
                         .append("\r\n"));

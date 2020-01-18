@@ -1,7 +1,3 @@
-logging:
-  file: logs/debug.log
-  #logging.level.org.springframework=INFO
-
 spring:
   profiles:
     active: "dev"
@@ -32,11 +28,10 @@ spring:
       auto-commit: true
       username:
       password:
+  liquibase:
+    enabled: true
+    url: jdbc:h2:file:/home/gael/PROJECTS/learnphrasebot/data/botdb
 
-
-liquibase:
-  enabled: true
-  url: jdbc:h2:file:/home/gael/PROJECTS/learnphrasebot/data/botdb
 
 logging:
   config: classpath:${logback:logback_debug.xml}
@@ -51,7 +46,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
 
     driver-class-name: org.h2.Driver
-#    url: jdbc:h2:file:/app/data/botdb
+
     username:
     password:
 
@@ -60,13 +55,12 @@ spring:
       auto-commit: true
       username:
       password:
+  liquibase:
+    enabled: true
 
 proxy:
   enabled: false
 
-liquibase:
-  enabled: true
-#  url: jdbc:h2:file:/app/data/botdb
 
 logging:
   config: classpath:${logback:logback-spring.xml}

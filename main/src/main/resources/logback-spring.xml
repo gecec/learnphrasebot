@@ -11,10 +11,6 @@
     <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
 
     <logger name="org.springframework" level="ERROR"/>
-    <!--<logger name="springfox" level="ERROR"/>
-    <logger name="ru.rtlabs.smev3.adapter" level="INFO"/>
-    <logger name="ru.voskhod.smev.adapter" level="INFO"/>
-    <logger name="ru.CryptoPro.JCP" level="ERROR"/>-->
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
