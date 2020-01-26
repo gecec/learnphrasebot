@@ -22,5 +22,5 @@ services:
     ports:
       - "80:80"
       - "4458:4458"
-    environment:
-      - BACKUP_PATH=/srv/backup
+    env_file:
+      - ./bot.env

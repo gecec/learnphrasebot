@@ -156,3 +156,5 @@ node_modules/
 *.db
 data/
 data/botdb.trace.db
+
+*.env

@@ -1,15 +1,10 @@
 FROM maven:3.5.2-jdk-8-alpine AS MAVEN
 
 COPY ./pom.xml ./pom.xml
-COPY ./model/pom.xml ./model/pom.xml
-COPY ./bot/pom.xml ./bot/pom.xml
-COPY ./main/pom.xml ./main/pom.xml
 
 RUN mvn dependency:go-offline package -B
 
-COPY ./model/src ./model/src
-COPY ./bot/src ./bot/src
-COPY ./main/src ./main/src
+COPY ./src ./src
 
 RUN mvn clean install
 
@@ -51,7 +46,6 @@ COPY data /srv/data
 
 COPY run.sh /srv/run.sh
 
-COPY --from=MAVEN /main/target/main-*.jar /srv/learnphrasebot.jar
+COPY --from=MAVEN /target/learn*.jar /srv/learnphrasebot.jar
 
-# CMD ["java", "-jar", "-Dspring.profiles.active=default", "-Dlogging.config=logback.xml", "/app/learnphrasebot.jar"]
 ENTRYPOINT ["/init.sh"]
