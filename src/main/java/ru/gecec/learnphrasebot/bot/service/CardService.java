@@ -84,7 +84,7 @@ public class CardService {
         Card card = new Card();
         card.setWord(terms[0]);
         card.setTranslation(terms[1]);
-        card.setTranscript(terms[2]);
+        card.setTranscription(terms[2]);
         card.setDescription(terms[3]);
 
         return cardRepository.save(card);

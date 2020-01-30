@@ -10,7 +10,7 @@ public class Card {
     private String category;
     private String subject; //Часть речи
     private String description;
-    private String transcript;
+    private String transcription;
 
     private int wordOrder;
 
@@ -70,12 +70,12 @@ public class Card {
         this.wordOrder = wordOrder;
     }
 
-    public String getTranscript() {
-        return transcript;
+    public String getTranscription() {
+        return transcription;
     }
 
-    public void setTranscript(String transcript) {
-        this.transcript = transcript;
+    public void setTranscription(String transcription) {
+        this.transcription = transcription;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Card {
                 .add("category='" + category + "'")
                 .add("subject='" + subject + "'")
                 .add("description='" + description + "'")
-                .add("transcript='" + transcript + "'")
+                .add("transcription='" + transcription + "'")
                 .add("wordOrder=" + wordOrder)
                 .toString();
     }
@@ -104,11 +104,11 @@ public class Card {
                 Objects.equals(category, card.category) &&
                 Objects.equals(subject, card.subject) &&
                 Objects.equals(description, card.description) &&
-                Objects.equals(transcript, card.transcript);
+                Objects.equals(transcription, card.transcription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, word, translation, category, subject, description, transcript, wordOrder);
+        return Objects.hash(id, word, translation, category, subject, description, transcription, wordOrder);
     }
 }

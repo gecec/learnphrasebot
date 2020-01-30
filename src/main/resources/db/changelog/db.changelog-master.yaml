@@ -131,6 +131,26 @@
       }
       ]
     }
+  },
+  {
+    "changeSet":{
+      "id": "3",
+      "author": "gael",
+      "changes": [
+      {
+        "addColumn": {
+          "columns": [
+          {
+            "column": {
+              "name": "transcription",
+              "type": "varchar(255)"
+            }
+          }],
+          "tableName": "card"
+        }
+      }
+      ]
+    }
   }
   ]
 }

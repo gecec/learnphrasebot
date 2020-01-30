@@ -44,7 +44,7 @@ public class CardServiceTest {
         expected1.setId("1");
         expected1.setWord("test");
         expected1.setTranslation("test");
-        expected1.setTranscript("test");
+        expected1.setTranscription("test");
         expected1.setDescription("test");
 
         assertEquals(expected1, cardService.createCardFromTemplate("test@test@test@test"));

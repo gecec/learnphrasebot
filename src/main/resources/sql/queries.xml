@@ -1,12 +1,12 @@
 <sqls>
     <sql name="card.getById">
-        select id, word, word_translation, category, subject, description, word_order
+        select id, word, word_translation, category, subject, description, word_order, transcription
         from card
         where id = ?
     </sql>
 
     <sql name="card.getByOrder">
-        select id, word, word_translation, category, subject, description, word_order
+        select id, word, word_translation, category, subject, description, word_order, transcription
         from card
         where word_order = ?
     </sql>
@@ -16,16 +16,16 @@
     </sql>
 
     <sql name="card.insert">
-        insert into card (id, word, word_translation, category, subject, description)
-        values (?,?,?,?,?,?)
+        insert into card (id, word, word_translation, category, subject, description, transcription)
+        values (?,?,?,?,?,?,?)
     </sql>
 
     <sql name="card.getAllCards">
-        select id, word, word_translation, category, subject, description, word_order from card
+        select id, word, word_translation, category, subject, description, word_order, transcription from card
     </sql>
 
     <sql name="card.getNotAttemptedByUser">
-        select id, word, word_translation, category, subject, description, word_order
+        select id, word, word_translation, category, subject, description, word_order, transcription
         from card
         where id not in (select card_id from user_attempt where user_id = ?) limit 1
     </sql>

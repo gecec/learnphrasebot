@@ -58,7 +58,8 @@ public class CardRepository extends BaseRepository {
                         card.getTranslation(),
                         card.getCategory(),
                         card.getSubject(),
-                        card.getDescription()
+                        card.getDescription(),
+                        card.getTranscription()
                 });
             } catch (DataAccessException ex) {
                 BotLogger.error("REPO", ex);

@@ -17,6 +17,7 @@ public class CardMapper implements RowMapper<Card> {
         card.setSubject(resultSet.getString("subject"));
         card.setDescription(resultSet.getString("description"));
         card.setWordOrder(resultSet.getInt("word_order"));
+        card.setTranscription(resultSet.getString("transcription"));
 
         return card;
     }
