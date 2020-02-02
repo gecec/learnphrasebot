@@ -1,14 +1,14 @@
 # compose file for local development
-# docker-compose -f compose-dev-backend.yml build
+# docker-compose -f compose-dev.yml build
 
-# start learnphrasebot - docker-compose -f compose-dev-backend.yml -d up
+# start learnphrasebot - docker-compose -f compose-dev.yml -d up
 
 version: '2'
 services:
   learnphrasebot:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: "learnphrasebot"
     hostname: "learnphrasebot"
     # restart: always
@@ -19,6 +19,7 @@ services:
               max-file: "5"
     volumes:
       - ~/.m2:/root/.m2
+      - /home/gael/test:/srv/backup
     ports:
       - "80:80"
       - "4458:4458"

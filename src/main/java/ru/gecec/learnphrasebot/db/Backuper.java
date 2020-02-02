@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
@@ -30,6 +31,10 @@ public class Backuper {
 
     @Scheduled(fixedRate = 600000)
     public void backup(){
+        if (StringUtils.isEmpty(backupPath)){
+            BotLogger.warn(LOGTAG, "Backup path is empty, unable to create backup");
+        }
+
         BotLogger.info(LOGTAG, "Start backuping DB...");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_YY_HH_mm_SS");
 

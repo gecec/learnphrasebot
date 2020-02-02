@@ -1,0 +1,27 @@
+# compose file for local development
+# docker-compose -f compose-dev.yml build
+
+# start learnphrasebot - docker-compose -f compose-dev.yml -d up
+
+version: '2'
+services:
+  learnphrasebot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "learnphrasebot"
+    hostname: "learnphrasebot"
+    # restart: always
+    logging:
+          driver: json-file
+          options:
+              max-size: "10m"
+              max-file: "5"
+    volumes:
+      - ~/.m2:/root/.m2
+      - /root/backup:/srv/backup
+    ports:
+      - "80:80"
+      - "4458:4458"
+    env_file:
+      - ./bot.env
