@@ -5,6 +5,12 @@
         where id = ?
     </sql>
 
+    <sql name="card.getByWord">
+        select id, word, word_translation, category, subject, description, word_order, transcription
+        from card
+        where word = ?
+    </sql>
+
     <sql name="card.getByOrder">
         select id, word, word_translation, category, subject, description, word_order, transcription
         from card

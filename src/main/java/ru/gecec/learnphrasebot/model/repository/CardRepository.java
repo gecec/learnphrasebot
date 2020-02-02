@@ -24,6 +24,12 @@ public class CardRepository extends BaseRepository {
     }
 
     @Transactional(readOnly = true)
+    public Card getByWord(final String word) {
+        final String sql = sqlResolver.getSql(queryName("getByWord"));
+        return jdbcTemplate.queryForObject(sql, new Object[]{word}, new CardMapper());
+    }
+
+    @Transactional(readOnly = true)
     public Card getByOrder(int order) {
         final String sql = sqlResolver.getSql(queryName("getByOrder"));
         return jdbcTemplate.queryForObject(sql, new Object[]{order}, new CardMapper());

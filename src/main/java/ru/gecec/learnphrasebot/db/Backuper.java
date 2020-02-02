@@ -28,7 +28,7 @@ public class Backuper {
         BotLogger.info(LOGTAG, "Backuper init");
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 600000)
     public void backup(){
         BotLogger.info(LOGTAG, "Start backuping DB...");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_YY_HH_mm_SS");

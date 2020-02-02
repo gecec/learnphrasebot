@@ -72,20 +72,33 @@ public class CardService {
 
         String[] terms = template.split(TERM_SPLITTER);
 
-        if (terms.length < 4) {
+        if (terms.length < 2) {
             throw new CardCreationException(
                     String.format(
-                            "String should fit template <term>%s<translation>%s<transcript>%s<comment>"
+                            "String should fit templates:\n " +
+                                    "<term>%s<translation>%s<transcript>%s<comment>,\n" +
+                                    "<term>%s<translation>%s<transcript>,\n"+
+                                    "<term>%s<translation>"
+                            , TERM_SPLITTER
+                            , TERM_SPLITTER
+                            , TERM_SPLITTER
                             , TERM_SPLITTER
                             , TERM_SPLITTER
                             , TERM_SPLITTER));
         }
 
+        Card currentCard = cardRepository.getByWord(terms[0]);
+
+        if (currentCard != null){
+            throw new CardCreationException(String.format("Card for word: %s already exists", terms[0]));
+        }
+
         Card card = new Card();
         card.setWord(terms[0]);
         card.setTranslation(terms[1]);
-        card.setTranscription(terms[2]);
-        card.setDescription(terms[3]);
+
+        if (terms.length > 2) card.setTranscription(terms[2]);
+        if (terms.length > 3) card.setDescription(terms[3]);
 
         return cardRepository.save(card);
     }

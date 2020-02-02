@@ -50,11 +50,20 @@ public class CardServiceTest {
         assertEquals(expected1, cardService.createCardFromTemplate("test@test@test@test"));
         assertEquals(expected1, cardService.createCardFromTemplate("test@test@test@test@"));
         assertEquals(expected1, cardService.createCardFromTemplate("test@test@test@test@test"));
+
+        Card expected2 = new Card();
+        expected2.setId("1");
+        expected2.setWord("test");
+        expected2.setTranslation("test");
+
+        assertEquals(expected2, cardService.createCardFromTemplate("test@test@@"));
+        assertEquals(expected2, cardService.createCardFromTemplate("test@test"));
+
     }
 
     @Test(expected = CardCreationException.class)
-    public void shoudFailWhenLessThanFourTerms() throws Exception {
-        cardService.createCardFromTemplate("test@test");
+    public void shoudFailWhenLessThanTwoTerms() throws Exception {
+        cardService.createCardFromTemplate("test");
     }
 
     @Test(expected = IllegalArgumentException.class)

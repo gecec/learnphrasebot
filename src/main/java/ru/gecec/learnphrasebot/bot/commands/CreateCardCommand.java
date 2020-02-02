@@ -23,7 +23,7 @@ public class CreateCardCommand extends BotCommand implements BasicCommand {
     private CardService cardService;
 
     public CreateCardCommand(final CardService cardService) {
-        super("create", "With this command you can create new word card");
+        super("c", "With this command you can create new word card");
         this.cardService = cardService;
     }
 
