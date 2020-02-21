@@ -24,9 +24,9 @@ public class CardRepository extends BaseRepository {
     }
 
     @Transactional(readOnly = true)
-    public Card getByWord(final String word) {
+    public Optional<Card> getByWord(final String word) {
         final String sql = sqlResolver.getSql(queryName("getByWord"));
-        return jdbcTemplate.queryForObject(sql, new Object[]{word}, new CardMapper());
+        return Optional.of(jdbcTemplate.queryForObject(sql, new Object[]{word}, new CardMapper()));
     }
 
     @Transactional(readOnly = true)
@@ -36,12 +36,12 @@ public class CardRepository extends BaseRepository {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Card> getNotAttemptedByUser(int userId){
+    public Optional<Card> getNotAttemptedByUser(int userId) {
         final String sql = sqlResolver.getSql(queryName("getNotAttemptedByUser"));
 
         try {
             return Optional.of(jdbcTemplate.queryForObject(sql, new Object[]{userId}, new CardMapper()));
-        } catch (EmptyResultDataAccessException ex){
+        } catch (EmptyResultDataAccessException ex) {
             return Optional.empty();
         }
     }
@@ -78,8 +78,8 @@ public class CardRepository extends BaseRepository {
         return getById(card.getId());
     }
 
-    public List<Card> getAllCards(){
-        final String sql =sqlResolver.getSql(queryName("getAllCards"));
+    public List<Card> getAllCards() {
+        final String sql = sqlResolver.getSql(queryName("getAllCards"));
         return jdbcTemplate.query(sql, new CardMapper());
     }
 

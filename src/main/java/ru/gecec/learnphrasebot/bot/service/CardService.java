@@ -3,6 +3,7 @@ package ru.gecec.learnphrasebot.bot.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.gecec.learnphrasebot.bot.CardCreationException;
@@ -18,7 +19,7 @@ import static ru.gecec.learnphrasebot.bot.service.BotMode.HEBREW;
 
 @Service
 public class CardService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CardService.class);
+    private final static Logger log = LoggerFactory.getLogger(CardService.class);
 
     private final static String TERM_SPLITTER = "@";
 
@@ -87,10 +88,14 @@ public class CardService {
                             , TERM_SPLITTER));
         }
 
-        Card currentCard = cardRepository.getByWord(terms[0]);
+        try {
+            Optional<Card> currentCard = cardRepository.getByWord(terms[0]);
 
-        if (currentCard != null){
-            throw new CardCreationException(String.format("Card for word: %s already exists", terms[0]));
+            if (currentCard.isPresent()) {
+                throw new CardCreationException(String.format("Card for word: %s already exists", terms[0]));
+            }
+        } catch (DataAccessException ex){
+            log.warn("Card {} not exists", terms[0]);
         }
 
         Card card = new Card();
@@ -99,6 +104,20 @@ public class CardService {
 
         if (terms.length > 2) card.setTranscription(terms[2]);
         if (terms.length > 3) card.setDescription(terms[3]);
+
+        return cardRepository.save(card);
+    }
+
+    public Card create(final Card card) throws CardCreationException {
+        try {
+            Optional<Card> currentCard = cardRepository.getByWord(card.getWord());
+
+            if (currentCard.isPresent()) {
+                throw new CardCreationException(String.format("Card for word: %s already exists", card.getWord()));
+            }
+        } catch (DataAccessException ex){
+            log.warn("Card {} not exists", card.getWord());
+        }
 
         return cardRepository.save(card);
     }

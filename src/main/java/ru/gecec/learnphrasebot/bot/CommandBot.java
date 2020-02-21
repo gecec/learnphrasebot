@@ -1,5 +1,6 @@
 package ru.gecec.learnphrasebot.bot;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ import ru.gecec.learnphrasebot.bot.commands.InfoCommand;
 import ru.gecec.learnphrasebot.bot.commands.ListCardsCommand;
 import ru.gecec.learnphrasebot.bot.commands.ModeCommand;
 import ru.gecec.learnphrasebot.bot.commands.StartCommand;
+import ru.gecec.learnphrasebot.bot.commands.handler.CommandHandler;
+import ru.gecec.learnphrasebot.bot.commands.handler.TranscriptionCommandHandler;
+import ru.gecec.learnphrasebot.bot.commands.handler.TranslationCommandHandler;
+import ru.gecec.learnphrasebot.bot.commands.handler.WordCommandHandler;
 import ru.gecec.learnphrasebot.bot.service.AttemptService;
 import ru.gecec.learnphrasebot.bot.service.BotMode;
 import ru.gecec.learnphrasebot.bot.service.CardService;
@@ -38,7 +43,7 @@ import static ru.gecec.learnphrasebot.bot.service.BotMode.RUSSIAN;
 
 @Service
 public class CommandBot extends TelegramLongPollingCommandBot {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CommandBot.class);
+    private final static Logger log = LoggerFactory.getLogger(CommandBot.class);
 
     private static final String LOGTAG = "COMMANDSHANDLER";
 
@@ -70,7 +75,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         register(helpCommand);
 
         register(new StartCommand(cardService, sessionManager));
-        register(new CreateCardCommand(cardService));
+        register(new CreateCardCommand(cardService, sessionManager));
         register(new ListCardsCommand(cardRepository));
         register(new InfoCommand(sessionManager));
         register(new ModeCommand(sessionManager));
@@ -82,7 +87,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
             try {
                 absSender.execute(commandUnknownMessage);
             } catch (TelegramApiException ex) {
-                LOGGER.error(ex.getMessage(), ex);
+                log.error(ex.getMessage(), ex);
                 throw new IllegalStateException(ex);
             }
 
@@ -92,54 +97,73 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
-        if (update.hasMessage()) {
-            Message message = update.getMessage();
+        try {
+            if (update.hasMessage()) {
+                Message message = update.getMessage();
 
-            if (message.hasText()) {
-                LOGGER.info(message.getText());
+                if (message.hasText()) {
+                    log.info(message.getText());
 
-                UserSession userSession = new UserSession(message.getChatId(), message.getFrom().getUserName());
+                    UserSession userSession = new UserSession(message.getChatId(), message.getFrom().getUserName());
+                    SendMessage echoMessage = new SendMessage();
+                    echoMessage.setChatId(message.getChatId());
 
-                String cardId = sessionManager.getCardId(userSession);
-                BotMode currentMode = sessionManager.getMode(userSession);
+                    if (!StringUtils.isEmpty(sessionManager.getCommand(userSession))) {
+                        String answer = getCommandHandler(userSession).handle(message);
+                        echoMessage.setText(answer);
+                        execute(echoMessage);
+                    } else { //TODO extract
+                        String cardId = sessionManager.getCardId(userSession);
+                        BotMode currentMode = sessionManager.getMode(userSession);
 
-                SendMessage echoMessage = new SendMessage();
-                echoMessage.setChatId(message.getChatId());
+                        if (!StringUtils.isEmpty(cardId)) {
+                            Card card = cardRepository.getById(cardId);
+                            if (card != null) {
+                                BotMode mode = currentMode;
+                                if (RANDOM.equals(currentMode)) {
+                                    BotMode randomMode = sessionManager.getRandomMode(userSession);
+                                    mode = randomMode;
+                                    sessionManager.invertRandomMode(userSession);
+                                }
 
-                if (!StringUtils.isEmpty(cardId)) {
-                    Card card = cardRepository.getById(cardId);
-                    if (card != null) {
-                        BotMode mode = currentMode;
-                        if (RANDOM.equals(currentMode)){
-                            BotMode randomMode = sessionManager.getRandomMode(userSession);
-                            mode = randomMode;
-                            sessionManager.invertRandomMode(userSession);
+                                CheckResult result = checker.check(card, mode, message.getText());
+                                attemptsService.processResult(result, card.getId(), message.getFrom().getId(), mode);
+                                echoMessage.setText(result.getAnswer());
+
+                                execute(echoMessage);
+                            }
+                        } else {
+                            echoMessage.setText("Для Вас не нашлось карточки, попробуйте в следующий раз :(");
+                            execute(echoMessage);
                         }
 
-                        CheckResult result = checker.check(card, mode, message.getText());
-                        attemptsService.processResult(result, card.getId(), message.getFrom().getId(), mode);
-                        echoMessage.setText(result.getAnswer());
+                        Card nextCard = cardService.getRarelyUsedCard(message.getFrom().getId(), currentMode);
+
+                        sessionManager.setCardId(userSession, nextCard.getId());
+
+                        if (currentMode == null) sessionManager.setMode(userSession, HEBREW);
+
+                        echoMessage.setText(getWord(userSession, currentMode, nextCard));
+
+                        execute(echoMessage);
                     }
-                } else {
-                    echoMessage.setText("Для Вас не нашлось карточки, попробуйте в следующий раз :(");
-                }
-
-                try {
-                    execute(echoMessage);
-
-                    Card nextCard = cardService.getRarelyUsedCard(message.getFrom().getId(), currentMode);
-
-                    sessionManager.setCardId(userSession, nextCard.getId());
-
-                    if (currentMode == null) sessionManager.setMode(userSession, HEBREW);
-
-                    echoMessage.setText(getWord(userSession, currentMode, nextCard));
-
-                    execute(echoMessage);
-                } catch (TelegramApiException ex) {
-                    LOGGER.error(ex.getMessage(), ex);
                 }
             }
+        } catch (TelegramApiException ex){
+            log.error(LOGTAG, ex.getMessage());
+        }
+    }
+
+    private CommandHandler getCommandHandler(final UserSession userSession) {
+        switch (sessionManager.getCommand(userSession)){
+            case WORD:
+                return new WordCommandHandler(sessionManager, userSession);
+            case TRANSLATION:
+                return new TranslationCommandHandler(sessionManager, userSession);
+            case TRANSCRIPTION:
+                return new TranscriptionCommandHandler(sessionManager, userSession, cardService);
+            default:
+                throw new UnsupportedOperationException("Command not supported");
         }
     }
 
@@ -159,6 +183,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
         return "";
     }
+
 
     @Override
     public String getBotToken() {
