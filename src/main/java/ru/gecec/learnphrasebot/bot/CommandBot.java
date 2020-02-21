@@ -26,6 +26,7 @@ import ru.gecec.learnphrasebot.bot.commands.handler.WordCommandHandler;
 import ru.gecec.learnphrasebot.bot.service.AttemptService;
 import ru.gecec.learnphrasebot.bot.service.BotMode;
 import ru.gecec.learnphrasebot.bot.service.CardService;
+import ru.gecec.learnphrasebot.bot.service.SecurityService;
 import ru.gecec.learnphrasebot.bot.service.WordChecker;
 import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.Card;
@@ -56,6 +57,9 @@ public class CommandBot extends TelegramLongPollingCommandBot {
     @Autowired
     private AttemptService attemptsService;
 
+    @Autowired
+    private SecurityService securityService;
+
     private WordChecker checker;
 
     @Value("${bot.token}")
@@ -75,8 +79,8 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         register(helpCommand);
 
         register(new StartCommand(cardService, sessionManager));
-        register(new CreateCardCommand(cardService, sessionManager));
-        register(new ListCardsCommand(cardRepository));
+        register(new CreateCardCommand(cardService, sessionManager, securityService));
+        register(new ListCardsCommand(cardRepository, securityService));
         register(new InfoCommand(sessionManager));
         register(new ModeCommand(sessionManager));
 

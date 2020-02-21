@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import ru.gecec.learnphrasebot.bot.service.CardService;
+import ru.gecec.learnphrasebot.bot.service.SecurityService;
 import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
 
@@ -20,24 +21,22 @@ import static ru.gecec.learnphrasebot.bot.commands.handler.CreateCommandEnum.WOR
 public class CreateCardCommand extends BotCommand implements BasicCommand {
     private final static Logger LOGGER = LoggerFactory.getLogger(CreateCardCommand.class);
 
-    private final static List<String> admins = Arrays.asList("gecec", "Ksuha_muha");
     private static final String LOGTAG = "CREATECARDCOMMAND";
 
     private final CardService cardService;
     private final SessionManager sessionManager;
+    private final SecurityService securityService;
 
-    public CreateCardCommand(final CardService cardService, final SessionManager sessionManager) {
+    public CreateCardCommand(final CardService cardService, final SessionManager sessionManager, final SecurityService securityService) {
         super("c", "With this command you can create new word card");
         this.cardService = cardService;
         this.sessionManager = sessionManager;
+        this.securityService = securityService;
     }
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        if (!admins
-                .stream()
-                .anyMatch(admin -> user.getUserName().equals(admin))
-        ) {
+        if (!securityService.isAdmin(user.getUserName())) {
             LOGGER.error(LOGTAG, String.format("Unauthorized user %s tries to create card", user.getUserName()));
             sendMessage(chat.getId().toString(), absSender, String.format("У вас нет прав на создание карточки"));
             return;
