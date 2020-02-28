@@ -19,7 +19,7 @@
     </parent>
 
     <properties>
-        <bot.api.version>4.0.0</bot.api.version>
+        <bot.api.version>4.6</bot.api.version>
         <junit.version>4.12</junit.version>
         <h2.version>1.4.196</h2.version>
         <java.version>1.8</java.version>
@@ -45,6 +45,12 @@
             <dependency>
                 <groupId>org.telegram</groupId>
                 <artifactId>telegrambots</artifactId>
+                <version>${bot.api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.telegram</groupId>
+                <artifactId>telegrambots-abilities</artifactId>
                 <version>${bot.api.version}</version>
             </dependency>
 
@@ -116,6 +122,11 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-abilities</artifactId>
         </dependency>
 
         <dependency>

@@ -33,6 +33,7 @@ import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.entity.CheckResult;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
+import ru.gecec.learnphrasebot.util.MessageUtil;
 
 import javax.annotation.PostConstruct;
 
@@ -60,6 +61,9 @@ public class CommandBot extends TelegramLongPollingCommandBot {
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private MessageUtil messageUtil;
+
     private WordChecker checker;
 
     @Value("${bot.token}")
@@ -69,7 +73,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
     SessionManager sessionManager;
 
     public CommandBot(@Autowired DefaultBotOptions options, @Value("${bot.username}") String username) {
-        super(options, username);
+        super(options, true);
         checker = new WordChecker();
     }
 
@@ -87,7 +91,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         registerDefaultAction((absSender, message) -> {
             SendMessage commandUnknownMessage = new SendMessage();
             commandUnknownMessage.setChatId(message.getChatId());
-            commandUnknownMessage.setText("The command '" + message.getText() + "' is not known by this bot. Here comes some help ");
+            commandUnknownMessage.setText(messageUtil.resolveTemplate("unknown_command", message.getText()));
             try {
                 absSender.execute(commandUnknownMessage);
             } catch (TelegramApiException ex) {
@@ -137,7 +141,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                                 execute(echoMessage);
                             }
                         } else {
-                            echoMessage.setText("Для Вас не нашлось карточки, попробуйте в следующий раз :(");
+                            echoMessage.setText(messageUtil.resolveTemplate("card_not_found"));
                             execute(echoMessage);
                         }
 

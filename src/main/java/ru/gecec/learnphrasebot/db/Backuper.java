@@ -1,20 +1,20 @@
 package ru.gecec.learnphrasebot.db;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.telegram.telegrambots.meta.logging.BotLogger;
 import ru.gecec.learnphrasebot.model.repository.CardRepository;
 
-import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
 public class Backuper {
-    private static final String LOGTAG = "BACKUP";
+    private final static Logger log = LoggerFactory.getLogger(Backuper.class);
 
     private final static String BACKUP_FILENAME = "_bak.sql";
 
@@ -24,23 +24,18 @@ public class Backuper {
     @Autowired
     private CardRepository repository;
 
-    @PostConstruct
-    public void init() {
-        BotLogger.info(LOGTAG, "Backuper init");
-    }
-
     @Scheduled(fixedRate = 600000)
     public void backup(){
         if (StringUtils.isEmpty(backupPath)){
-            BotLogger.warn(LOGTAG, "Backup path is empty, unable to create backup");
+            log.warn("Backup path is empty, unable to create backup");
         }
 
-        BotLogger.info(LOGTAG, "Start backuping DB...");
+        log.info("Start backuping DB...");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd_MM_YY_HH_mm_SS");
 
         String filename = String.format("%s/%s%s", backupPath, dateFormat.format(new Date()), BACKUP_FILENAME);
         repository.backup(filename);
 
-        BotLogger.info(LOGTAG, String.format("DB stored to %s", filename));
+        log.info(String.format("DB stored to %s", filename));
     }
 }

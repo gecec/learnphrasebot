@@ -1,12 +1,14 @@
 package ru.gecec.learnphrasebot.model.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.telegram.telegrambots.meta.logging.BotLogger;
+
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.mapper.CardMapper;
 
@@ -16,6 +18,8 @@ import java.util.UUID;
 
 @Repository
 public class CardRepository extends BaseRepository {
+
+    private final static Logger log = LoggerFactory.getLogger(CardRepository.class);
 
     @Transactional(readOnly = true)
     public Card getById(final String id) {
@@ -68,7 +72,7 @@ public class CardRepository extends BaseRepository {
                         card.getTranscription()
                 });
             } catch (DataAccessException ex) {
-                BotLogger.error("REPO", ex);
+                log.error(ex.getMessage());
             }
         } else {
             final String sql = "update card set word=?, word_translation=?, category=?, subject=?, description=?, wordOrder=? where id=?";
@@ -85,12 +89,12 @@ public class CardRepository extends BaseRepository {
 
     public void backup(String filename) {
         final String sql = String.format("SCRIPT TO \'%s\'", filename);
-        BotLogger.info("REPO", sql);
+        log.info(sql);
 
         try {
             jdbcTemplate.execute(sql);
         } catch (DataAccessException ex) {
-            BotLogger.error("REPO", ex);
+            log.error(ex.getMessage());
         }
     }
 

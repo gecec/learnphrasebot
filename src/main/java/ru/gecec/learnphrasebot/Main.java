@@ -18,7 +18,7 @@ import ru.gecec.learnphrasebot.bot.CommandBot;
 @SpringBootApplication
 @EnableScheduling
 public class Main implements CommandLineRunner {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private final static Logger log = LoggerFactory.getLogger(Main.class);
 
     @Autowired
     private CommandBot commandBot;
@@ -30,19 +30,19 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LOGGER.info("Starting bot...");
+        log.info("Starting bot...");
 
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 
             try {
                 telegramBotsApi.registerBot(commandBot);
-                LOGGER.info("Bot started");
+                log.info("Bot started");
             } catch (TelegramApiException ex) {
-                LOGGER.error(ex.getMessage(), ex);
+                log.error(ex.getMessage(), ex);
             }
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         }
     }
 

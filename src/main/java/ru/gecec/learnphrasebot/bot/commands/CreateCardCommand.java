@@ -8,20 +8,16 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.gecec.learnphrasebot.bot.service.CardService;
 import ru.gecec.learnphrasebot.bot.service.SecurityService;
 import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static ru.gecec.learnphrasebot.bot.commands.handler.CreateCommandEnum.WORD;
 
 public class CreateCardCommand extends BotCommand implements BasicCommand {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CreateCardCommand.class);
-
-    private static final String LOGTAG = "CREATECARDCOMMAND";
+    private final static Logger log = LoggerFactory.getLogger(CreateCardCommand.class);
 
     private final CardService cardService;
     private final SessionManager sessionManager;
@@ -36,25 +32,24 @@ public class CreateCardCommand extends BotCommand implements BasicCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        if (!securityService.isAdmin(user.getUserName())) {
-            LOGGER.error(LOGTAG, String.format("Unauthorized user %s tries to create card", user.getUserName()));
-            sendMessage(chat.getId().toString(), absSender, String.format("У вас нет прав на создание карточки"));
-            return;
-        }
+        try {
+            if (!securityService.isAdmin(user.getUserName())) {
+                log.error(String.format("Unauthorized user %s tries to create card", user.getUserName()));
+                sendMessage(chat.getId().toString(), absSender, String.format("У вас нет прав на создание карточки"));
+                return;
+            }
 
-        UserSession userSession = new UserSession(chat.getId(), user.getUserName());
-        if (!StringUtils.isEmpty(sessionManager.getCommand(userSession))) {
-            sendMessage(chat.getId().toString(), absSender, "Вы уже находитесь в процессе создания карточки. Либо заполните карточку до конца. Либо отправьте stop чтобы остановить процесс");
-            return;
-        }
+            UserSession userSession = new UserSession(chat.getId(), user.getUserName());
+            if (!StringUtils.isEmpty(sessionManager.getCommand(userSession))) {
+                sendMessage(chat.getId().toString(), absSender, "Вы уже находитесь в процессе создания карточки. Либо заполните карточку до конца. Либо отправьте stop чтобы остановить процесс");
+                return;
+            }
 
-        sessionManager.setCommand(userSession, WORD);
-        sendMessage(chat.getId().toString(), absSender, "Введите слово:");
+            sessionManager.setCommand(userSession, WORD);
+            sendMessage(chat.getId().toString(), absSender, "Введите слово:");
+        } catch (TelegramApiException ex){
+            log.error("Create card error: ", ex.getMessage());
+        }
     }
 
-
-    @Override
-    public String getLogtag() {
-        return LOGTAG;
-    }
 }

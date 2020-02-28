@@ -1,5 +1,7 @@
 package ru.gecec.learnphrasebot.bot.commands;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.ICommandRegistry;
@@ -10,13 +12,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.logging.BotLogger;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HelpCommand extends BotCommand {
-    private static final String LOGTAG = "HELPCOMMAND";
+    private final static Logger log = LoggerFactory.getLogger(HelpCommand.class);
 
     private final ICommandRegistry commandRegistry;
 
@@ -43,8 +45,8 @@ public class HelpCommand extends BotCommand {
 
         try {
             absSender.execute(helpMessage);
-        } catch (TelegramApiException e) {
-            BotLogger.error(LOGTAG, e);
+        } catch (TelegramApiException ex) {
+            log.error(ex.getMessage());
         }
     }
 
