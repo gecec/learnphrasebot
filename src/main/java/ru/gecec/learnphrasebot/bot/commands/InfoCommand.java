@@ -7,12 +7,12 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
 
 public class InfoCommand extends BotCommand implements BasicCommand {
-    private final static Logger LOGGER = LoggerFactory.getLogger(InfoCommand.class);
-    private static final String LOGTAG = "INFOCOMMAND";
+    private final static Logger log = LoggerFactory.getLogger(InfoCommand.class);
 
     private SessionManager sessionManager;
 
@@ -23,13 +23,12 @@ public class InfoCommand extends BotCommand implements BasicCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        UserSession session = new UserSession(chat.getId(), user.getUserName());
-        String currentStatus = String.format("Текущий языковой режим: %s", sessionManager.getMode(session));
-        sendMessage(chat.getId().toString(), absSender, currentStatus);
-    }
-
-    @Override
-    public String getLogtag() {
-        return LOGTAG;
+        try {
+            UserSession session = new UserSession(chat.getId(), user.getUserName());
+            String currentStatus = String.format("Текущий языковой режим: %s", sessionManager.getMode(session));
+            sendMessage(chat.getId().toString(), absSender, currentStatus);
+        } catch (TelegramApiException ex){
+            log.error(ex.getMessage(), ex);
+        }
     }
 }
