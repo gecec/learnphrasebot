@@ -18,9 +18,9 @@ services:
               max-size: "10m"
               max-file: "5"
     volumes:
-      - ~/.m2:/root/.m2
-      - /root/app/learnphrasebot/backup:/srv/backup
-      - /root/app/learnphrasebot/data:/srv/data
+      - ~/.m2:~/.m2
+      - ~/app/learnphrasebot/backup:/srv/backup
+      - ~/app/learnphrasebot/data:/srv/data
     ports:
       - "80:80"
       - "4458:4458"

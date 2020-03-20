@@ -18,8 +18,9 @@ services:
               max-size: "10m"
               max-file: "5"
     volumes:
-      - ~/.m2:/root/.m2
-      - /home/gael/test:/srv/backup
+      - ~/.m2:~/.m2
+      - ~/test:/srv/backup
+      - ./data:/srv/data
     ports:
       - "80:80"
       - "4458:4458"
