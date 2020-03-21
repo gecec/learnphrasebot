@@ -14,7 +14,7 @@ import ru.gecec.learnphrasebot.bot.service.SecurityService;
 import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
 
-import static ru.gecec.learnphrasebot.bot.commands.handler.CreateCommandEnum.WORD;
+import static ru.gecec.learnphrasebot.bot.commands.handler.SubCommandEnum.WORD;
 
 public class CreateCardCommand extends BotCommand implements BasicCommand {
     private final static Logger log = LoggerFactory.getLogger(CreateCardCommand.class);

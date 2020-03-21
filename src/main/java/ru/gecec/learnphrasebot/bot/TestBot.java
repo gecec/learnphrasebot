@@ -1,9 +1,7 @@
 package ru.gecec.learnphrasebot.bot;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,11 +15,9 @@ public class TestBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String token;
 
-    @Autowired
-    private DefaultBotOptions options;
 
-    public TestBot(DefaultBotOptions options) {
-        super(options);
+    public TestBot() {
+        super();
     }
 
     @Override

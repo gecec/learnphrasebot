@@ -1,6 +1,6 @@
 package ru.gecec.learnphrasebot.bot.commands.handler;
 
-public enum CreateCommandEnum {
+public enum SubCommandEnum {
     WORD,
     TRANSLATION,
     TRANSCRIPTION,

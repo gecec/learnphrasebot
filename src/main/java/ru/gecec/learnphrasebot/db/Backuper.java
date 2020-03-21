@@ -24,7 +24,7 @@ public class Backuper {
     @Autowired
     private CardRepository repository;
 
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRate = 43200000, initialDelay = 300000) //millisec
     public void backup(){
         if (StringUtils.isEmpty(backupPath)){
             log.warn("Backup path is empty, unable to create backup");

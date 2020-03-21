@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
+
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,10 +19,7 @@ import ru.gecec.learnphrasebot.bot.commands.InfoCommand;
 import ru.gecec.learnphrasebot.bot.commands.ListCardsCommand;
 import ru.gecec.learnphrasebot.bot.commands.ModeCommand;
 import ru.gecec.learnphrasebot.bot.commands.StartCommand;
-import ru.gecec.learnphrasebot.bot.commands.handler.CommandHandler;
-import ru.gecec.learnphrasebot.bot.commands.handler.TranscriptionCommandHandler;
-import ru.gecec.learnphrasebot.bot.commands.handler.TranslationCommandHandler;
-import ru.gecec.learnphrasebot.bot.commands.handler.WordCommandHandler;
+import ru.gecec.learnphrasebot.bot.commands.handler.SubCommandHandler;
 import ru.gecec.learnphrasebot.bot.service.AttemptService;
 import ru.gecec.learnphrasebot.bot.service.BotMode;
 import ru.gecec.learnphrasebot.bot.service.CardService;
@@ -47,7 +44,7 @@ import static ru.gecec.learnphrasebot.bot.service.BotMode.RUSSIAN;
 public class CommandBot extends TelegramLongPollingCommandBot {
     private final static Logger log = LoggerFactory.getLogger(CommandBot.class);
 
-    private static final String LOGTAG = "COMMANDSHANDLER";
+    public static final String BOT_USERNAME = "gecec_learnphrasebot";
 
     @Autowired
     private CardRepository cardRepository;
@@ -72,8 +69,11 @@ public class CommandBot extends TelegramLongPollingCommandBot {
     @Autowired
     SessionManager sessionManager;
 
-    public CommandBot(@Autowired DefaultBotOptions options, @Value("${bot.username}") String username) {
-        super(options, true);
+    @Autowired
+    private SubCommandHandler subCommandHandler;
+
+    public CommandBot() {
+        super();
         checker = new WordChecker();
     }
 
@@ -110,14 +110,14 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                 Message message = update.getMessage();
 
                 if (message.hasText()) {
-                    log.info(message.getText());
+                    log.debug(message.getText());
 
                     UserSession userSession = new UserSession(message.getChatId(), message.getFrom().getUserName());
                     SendMessage echoMessage = new SendMessage();
                     echoMessage.setChatId(message.getChatId());
 
                     if (!StringUtils.isEmpty(sessionManager.getCommand(userSession))) {
-                        String answer = getCommandHandler(userSession).handle(message);
+                        String answer = subCommandHandler.handle(message, sessionManager.getCommand(userSession), userSession);
                         echoMessage.setText(answer);
                         execute(echoMessage);
                     } else { //TODO extract
@@ -158,20 +158,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                 }
             }
         } catch (TelegramApiException ex){
-            log.error(LOGTAG, ex.getMessage());
-        }
-    }
-
-    private CommandHandler getCommandHandler(final UserSession userSession) {
-        switch (sessionManager.getCommand(userSession)){
-            case WORD:
-                return new WordCommandHandler(sessionManager, userSession);
-            case TRANSLATION:
-                return new TranslationCommandHandler(sessionManager, userSession);
-            case TRANSCRIPTION:
-                return new TranscriptionCommandHandler(sessionManager, userSession, cardService);
-            default:
-                throw new UnsupportedOperationException("Command not supported");
+            log.error(ex.getMessage(), ex);
         }
     }
 
@@ -192,9 +179,13 @@ public class CommandBot extends TelegramLongPollingCommandBot {
         return "";
     }
 
-
     @Override
     public String getBotToken() {
         return token;
+    }
+
+    @Override
+    public String getBotUsername() {
+        return BOT_USERNAME;
     }
 }

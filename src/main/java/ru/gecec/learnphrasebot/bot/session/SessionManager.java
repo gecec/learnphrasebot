@@ -6,7 +6,7 @@ import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.springframework.stereotype.Component;
-import ru.gecec.learnphrasebot.bot.commands.handler.CreateCommandEnum;
+import ru.gecec.learnphrasebot.bot.commands.handler.SubCommandEnum;
 import ru.gecec.learnphrasebot.bot.service.BotMode;
 import ru.gecec.learnphrasebot.model.entity.Card;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
@@ -85,11 +85,11 @@ public class SessionManager {
         this.sessionManager = sessionManager;
     }
 
-    public CreateCommandEnum getCommand(UserSession userSession){
-        return (CreateCommandEnum) getSession(userSession).getAttribute(COMMAND);
+    public SubCommandEnum getCommand(UserSession userSession){
+        return (SubCommandEnum) getSession(userSession).getAttribute(COMMAND);
     }
 
-    public void setCommand(UserSession userSession, CreateCommandEnum command){
+    public void setCommand(UserSession userSession, SubCommandEnum command){
         getSession(userSession).setAttribute(COMMAND, command);
     }
 
