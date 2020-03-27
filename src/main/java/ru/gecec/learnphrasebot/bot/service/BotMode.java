@@ -4,7 +4,7 @@ public enum BotMode {
     HEBREW("hebrew"),
     RUSSIAN("russian"),
 
-    RANDOM("random"),
+    RANDOM("random"), //first card in hebrew, next - in russian
     RANDOM_RUSSIAN("random_russian"),
     RANDOM_HEBREW("random_hebrew");
 

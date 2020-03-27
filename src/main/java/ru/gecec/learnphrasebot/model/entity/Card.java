@@ -14,6 +14,15 @@ public class Card {
 
     private int wordOrder;
 
+    public Card() {
+    }
+
+    public Card(String id, String word, String translation) {
+        this.id = id;
+        this.word = word;
+        this.translation = translation;
+    }
+
     public String getId() {
         return id;
     }

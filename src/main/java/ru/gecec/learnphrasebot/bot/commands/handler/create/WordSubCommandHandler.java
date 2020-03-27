@@ -27,7 +27,7 @@ public class WordSubCommandHandler implements Handler {
             return "Слово не может быть пустым";
         }
 
-        Card card = new Card();
+        Card card =  new Card();
         card.setWord(message.getText());
         sessionManager.setNewCard(userSession, card);
         sessionManager.setCommand(userSession, SubCommandEnum.TRANSLATION);

@@ -59,6 +59,7 @@ public class CardRepository extends BaseRepository {
     public Card save(final Card card) {
         if (StringUtils.isEmpty(card.getId())) {
             card.setId(UUID.randomUUID().toString());
+
             final String sql = sqlResolver.getSql(queryName("insert"));
 
             try {

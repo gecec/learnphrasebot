@@ -1,20 +1,20 @@
 package ru.gecec.learnphrasebot.model.entity;
 
 public class CheckResult {
-    private String answer;
+    private String result;
     private boolean isRight;
 
-    public CheckResult(String answer, boolean isRight) {
-        this.answer = answer;
+    public CheckResult(String result, boolean isRight) {
+        this.result = result;
         this.isRight = isRight;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getResult() {
+        return result;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setResult(String result) {
+        this.result = result;
     }
 
     public boolean isRight() {

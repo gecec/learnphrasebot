@@ -23,7 +23,7 @@ public class FaultException extends RuntimeException {
     public FaultException(String message, String code, Throwable cause) {
         super(message, cause);
         this.code = code;
-    }
+    }   
 
     public FaultException(String message, Throwable cause) {
         super(message, cause);

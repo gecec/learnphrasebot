@@ -121,12 +121,12 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                         echoMessage.setText(answer);
                         execute(echoMessage);
                     } else { //TODO extract
-                        String cardId = sessionManager.getCardId(userSession);
+                        String cardId = sessionManager.getCardId(userSession); //card that was asked
                         BotMode currentMode = sessionManager.getMode(userSession);
 
                         if (!StringUtils.isEmpty(cardId)) {
-                            Card card = cardRepository.getById(cardId);
-                            if (card != null) {
+                            Card askedCard = cardRepository.getById(cardId);
+                            if (askedCard != null) {
                                 BotMode mode = currentMode;
                                 if (RANDOM.equals(currentMode)) {
                                     BotMode randomMode = sessionManager.getRandomMode(userSession);
@@ -134,9 +134,9 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                                     sessionManager.invertRandomMode(userSession);
                                 }
 
-                                CheckResult result = checker.check(card, mode, message.getText());
-                                attemptsService.processResult(result, card.getId(), message.getFrom().getId(), mode);
-                                echoMessage.setText(result.getAnswer());
+                                CheckResult result = checker.check(askedCard, mode, message.getText());
+                                attemptsService.processResult(result, askedCard.getId(), message.getFrom().getId(), mode);
+                                echoMessage.setText(result.getResult());
 
                                 execute(echoMessage);
                             }

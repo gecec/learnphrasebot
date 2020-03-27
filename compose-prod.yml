@@ -13,14 +13,15 @@ services:
     hostname: "learnphrasebot"
     # restart: always
     logging:
-          driver: json-file
-          options:
-              max-size: "10m"
-              max-file: "5"
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
     volumes:
-      - ~/.m2:~/.m2
-      - ~/app/learnphrasebot/backup:/srv/backup
+      - ~/.m2:/home/app/.m2
       - ~/app/learnphrasebot/data:/srv/data
+      - ~/app/learnphrasebot/backup:/srv/backup
+      - ~/app/learnphrasebot/logs:/srv/logs
     ports:
       - "80:80"
       - "4458:4458"

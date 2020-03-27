@@ -14,6 +14,7 @@ import ru.gecec.learnphrasebot.bot.service.SecurityService;
 import ru.gecec.learnphrasebot.bot.session.SessionManager;
 import ru.gecec.learnphrasebot.model.entity.UserSession;
 
+import static ru.gecec.learnphrasebot.bot.commands.handler.SubCommandEnum.NONE;
 import static ru.gecec.learnphrasebot.bot.commands.handler.SubCommandEnum.WORD;
 
 public class CreateCardCommand extends BotCommand implements BasicCommand {
@@ -40,7 +41,8 @@ public class CreateCardCommand extends BotCommand implements BasicCommand {
             }
 
             UserSession userSession = new UserSession(chat.getId(), user.getUserName());
-            if (!StringUtils.isEmpty(sessionManager.getCommand(userSession))) {
+            if (!StringUtils.isEmpty(sessionManager.getCommand(userSession)) ||
+                !NONE.equals(sessionManager.getCommand(userSession))) {
                 sendMessage(chat.getId().toString(), absSender, "Вы уже находитесь в процессе создания карточки. Либо заполните карточку до конца. Либо отправьте stop чтобы остановить процесс");
                 return;
             }

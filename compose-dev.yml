@@ -19,8 +19,9 @@ services:
               max-file: "5"
     volumes:
       - ~/.m2:~/.m2
-      - ~/test:/srv/backup
-      - ./data:/srv/data
+      - ~/learnphrasebot/backup:/srv/backup
+      - ~/learnphrasebot/data:/srv/data
+      - ~/learnphrasebot/logs:/srv/logs
     ports:
       - "80:80"
       - "4458:4458"
