@@ -34,6 +34,7 @@ import ru.gecec.learnphrasebot.util.MessageUtil;
 
 import javax.annotation.PostConstruct;
 
+import static ru.gecec.learnphrasebot.bot.commands.handler.SubCommandEnum.NONE;
 import static ru.gecec.learnphrasebot.bot.service.BotMode.HEBREW;
 import static ru.gecec.learnphrasebot.bot.service.BotMode.RANDOM;
 import static ru.gecec.learnphrasebot.bot.service.BotMode.RANDOM_HEBREW;
@@ -116,7 +117,8 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                     SendMessage echoMessage = new SendMessage();
                     echoMessage.setChatId(message.getChatId());
 
-                    if (!StringUtils.isEmpty(sessionManager.getCommand(userSession))) {
+                    if (!StringUtils.isEmpty(sessionManager.getCommand(userSession))
+                            && !NONE.equals(sessionManager.getCommand(userSession))) {
                         String answer = subCommandHandler.handle(message, sessionManager.getCommand(userSession), userSession);
                         echoMessage.setText(answer);
                         execute(echoMessage);
@@ -157,7 +159,7 @@ public class CommandBot extends TelegramLongPollingCommandBot {
                     }
                 }
             }
-        } catch (TelegramApiException ex){
+        } catch (TelegramApiException ex) {
             log.error(ex.getMessage(), ex);
         }
     }
@@ -167,11 +169,11 @@ public class CommandBot extends TelegramLongPollingCommandBot {
 
         if (RUSSIAN.equals(currentMode)) return nextCard.getTranslation();
 
-        if (RANDOM.equals(currentMode)){
+        if (RANDOM.equals(currentMode)) {
             BotMode randomMode = sessionManager.getRandomMode(userSession);
-            if (RANDOM_HEBREW.equals(randomMode)){
+            if (RANDOM_HEBREW.equals(randomMode)) {
                 return nextCard.getWord();
-            } else if (RANDOM_RUSSIAN.equals(randomMode)){
+            } else if (RANDOM_RUSSIAN.equals(randomMode)) {
                 return nextCard.getTranslation();
             }
         }
